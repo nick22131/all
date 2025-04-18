@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Arithmatic Expressions/Arithmatic Expressions.iml" filepath="$PROJECT_DIR$/02/New folder/Arithmatic Expressions/Arithmatic Expressions.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Arithmatic Expressions/Arithmatic Expressions2.iml" filepath="$PROJECT_DIR$/01/New folder/Arithmatic Expressions/Arithmatic Expressions2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/Array problems/Array problems.iml" filepath="$PROJECT_DIR$/01/Array problems/Array problems.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/Array problems/Array problems2.iml" filepath="$PROJECT_DIR$/02/Array problems/Array problems2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Arrays/Arrays.iml" filepath="$PROJECT_DIR$/02/New folder/Arrays/Arrays.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Arrays multidimensiobnal/Arrays multidimensiobnal.iml" filepath="$PROJECT_DIR$/02/New folder/Arrays multidimensiobnal/Arrays multidimensiobnal.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Arrays multidimensiobnal/Arrays multidimensiobnal2.iml" filepath="$PROJECT_DIR$/01/New folder/Arrays multidimensiobnal/Arrays multidimensiobnal2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Arrays/Arrays2.iml" filepath="$PROJECT_DIR$/01/New folder/Arrays/Arrays2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Comparison operatives/Comparison operatives.iml" filepath="$PROJECT_DIR$/01/New folder/Comparison operatives/Comparison operatives.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Comparison operatives/Comparison operatives2.iml" filepath="$PROJECT_DIR$/02/New folder/Comparison operatives/Comparison operatives2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Do...while Loops/Do...while Loops.iml" filepath="$PROJECT_DIR$/01/New folder/Do...while Loops/Do...while Loops.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Do...while Loops/Do...while Loops2.iml" filepath="$PROJECT_DIR$/02/New folder/Do...while Loops/Do...while Loops2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Formatting numbers/Formatting numbers.iml" filepath="$PROJECT_DIR$/02/New folder/Formatting numbers/Formatting numbers.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Formatting numbers/Formatting numbers2.iml" filepath="$PROJECT_DIR$/01/New folder/Formatting numbers/Formatting numbers2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/If statement/If statement.iml" filepath="$PROJECT_DIR$/01/New folder/If statement/If statement.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/If statement/If statement2.iml" filepath="$PROJECT_DIR$/02/New folder/If statement/If statement2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/LOGICAL OPERATORS/LOGICAL OPERATORS.iml" filepath="$PROJECT_DIR$/02/New folder/LOGICAL OPERATORS/LOGICAL OPERATORS.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/LOGICAL OPERATORS/LOGICAL OPERATORS2.iml" filepath="$PROJECT_DIR$/01/New folder/LOGICAL OPERATORS/LOGICAL OPERATORS2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Math Class/Math Class.iml" filepath="$PROJECT_DIR$/01/New folder/Math Class/Math Class.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Math Class/Math Class2.iml" filepath="$PROJECT_DIR$/02/New folder/Math Class/Math Class2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/Object-Oriented Programming/Object-Oriented Programming.iml" filepath="$PROJECT_DIR$/01/Object-Oriented Programming/Object-Oriented Programming.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/Practice problem/Practice problem.iml" filepath="$PROJECT_DIR$/01/Practice problem/Practice problem.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Problem 005/Problem 005.iml" filepath="$PROJECT_DIR$/02/New folder/Problem 005/Problem 005.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Problem 006/Problem 006.iml" filepath="$PROJECT_DIR$/02/New folder/Problem 006/Problem 006.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Problem 007/Problem 007.iml" filepath="$PROJECT_DIR$/02/New folder/Problem 007/Problem 007.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Problem 008/Problem 008.iml" filepath="$PROJECT_DIR$/02/New folder/Problem 008/Problem 008.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Problem 010/Problem 010.iml" filepath="$PROJECT_DIR$/02/New folder/Problem 010/Problem 010.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Problem 011/Problem 011.iml" filepath="$PROJECT_DIR$/02/New folder/Problem 011/Problem 011.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Problem 012/Problem 012.iml" filepath="$PROJECT_DIR$/01/New folder/Problem 012/Problem 012.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Problem 013/Problem 013.iml" filepath="$PROJECT_DIR$/01/New folder/Problem 013/Problem 013.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Problem 014/Problem 014.iml" filepath="$PROJECT_DIR$/01/New folder/Problem 014/Problem 014.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Problem 017/Problem 017.iml" filepath="$PROJECT_DIR$/01/New folder/Problem 017/Problem 017.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/Problem 018/Problem 018.iml" filepath="$PROJECT_DIR$/02/Problem 018/Problem 018.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Problem 010/Problem 11.iml" filepath="$PROJECT_DIR$/01/New folder/Problem 010/Problem 11.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Problem 011/Problem 12.iml" filepath="$PROJECT_DIR$/01/New folder/Problem 011/Problem 12.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Problem 012/Problem 13.iml" filepath="$PROJECT_DIR$/02/New folder/Problem 012/Problem 13.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Problem 013/Problem 14.iml" filepath="$PROJECT_DIR$/02/New folder/Problem 013/Problem 14.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Problem 014/Problem 15.iml" filepath="$PROJECT_DIR$/02/New folder/Problem 014/Problem 15.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Problem 16/Problem 16.iml" filepath="$PROJECT_DIR$/01/New folder/Problem 16/Problem 16.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Problem 16/Problem 17.iml" filepath="$PROJECT_DIR$/02/New folder/Problem 16/Problem 17.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Problem 017/Problem 18.iml" filepath="$PROJECT_DIR$/02/New folder/Problem 017/Problem 18.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/Problem 018/Problem 19.iml" filepath="$PROJECT_DIR$/01/Problem 018/Problem 19.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Problem 005/Problem 6.iml" filepath="$PROJECT_DIR$/01/New folder/Problem 005/Problem 6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Problem 006/Problem 7.iml" filepath="$PROJECT_DIR$/01/New folder/Problem 006/Problem 7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Problem 007/Problem 8.iml" filepath="$PROJECT_DIR$/01/New folder/Problem 007/Problem 8.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Problem 008/Problem 9.iml" filepath="$PROJECT_DIR$/01/New folder/Problem 008/Problem 9.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Project 009/Project 009.iml" filepath="$PROJECT_DIR$/02/New folder/Project 009/Project 009.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Project 014/Project 014.iml" filepath="$PROJECT_DIR$/02/New folder/Project 014/Project 014.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Project 009/Project 10.iml" filepath="$PROJECT_DIR$/01/New folder/Project 009/Project 10.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Project 014/Project 15.iml" filepath="$PROJECT_DIR$/01/New folder/Project 014/Project 15.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Reference Type/Reference Type.iml" filepath="$PROJECT_DIR$/01/New folder/Reference Type/Reference Type.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Reference Type/Reference Type2.iml" filepath="$PROJECT_DIR$/02/New folder/Reference Type/Reference Type2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/SWitch 1/SWitch 1.iml" filepath="$PROJECT_DIR$/02/New folder/SWitch 1/SWitch 1.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/SWitch 1/SWitch 2.iml" filepath="$PROJECT_DIR$/01/New folder/SWitch 1/SWitch 2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Scanner Reading inputs/Scanner Reading inputs.iml" filepath="$PROJECT_DIR$/02/New folder/Scanner Reading inputs/Scanner Reading inputs.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Scanner Reading inputs/Scanner Reading inputs2.iml" filepath="$PROJECT_DIR$/01/New folder/Scanner Reading inputs/Scanner Reading inputs2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/Strings/Strings.iml" filepath="$PROJECT_DIR$/01/New folder/Strings/Strings.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/Strings/Strings2.iml" filepath="$PROJECT_DIR$/02/New folder/Strings/Strings2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/casting/casting.iml" filepath="$PROJECT_DIR$/01/New folder/casting/casting.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/casting/casting2.iml" filepath="$PROJECT_DIR$/02/New folder/casting/casting2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/constants/constants.iml" filepath="$PROJECT_DIR$/02/New folder/constants/constants.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/constants/constants2.iml" filepath="$PROJECT_DIR$/01/New folder/constants/constants2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/escape sequences/escape sequences.iml" filepath="$PROJECT_DIR$/02/New folder/escape sequences/escape sequences.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/escape sequences/escape sequences2.iml" filepath="$PROJECT_DIR$/01/New folder/escape sequences/escape sequences2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/for each loop/for each loop.iml" filepath="$PROJECT_DIR$/01/New folder/for each loop/for each loop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/for each loop reverse/for each loop reverse.iml" filepath="$PROJECT_DIR$/01/New folder/for each loop reverse/for each loop reverse.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/for each loop reverse/for each loop reverse2.iml" filepath="$PROJECT_DIR$/02/New folder/for each loop reverse/for each loop reverse2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/for each loop/for each loop2.iml" filepath="$PROJECT_DIR$/02/New folder/for each loop/for each loop2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/for loop/for loop.iml" filepath="$PROJECT_DIR$/01/New folder/for loop/for loop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/for loop/for loop2.iml" filepath="$PROJECT_DIR$/02/New folder/for loop/for loop2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/hello/hello.iml" filepath="$PROJECT_DIR$/02/New folder/hello/hello.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/hello system out print/hello system out print.iml" filepath="$PROJECT_DIR$/01/New folder/hello system out print/hello system out print.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/hello system out print/hello system out print2.iml" filepath="$PROJECT_DIR$/02/New folder/hello system out print/hello system out print2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/hello/hello2.iml" filepath="$PROJECT_DIR$/01/New folder/hello/hello2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/if else scanner/if else scanner.iml" filepath="$PROJECT_DIR$/02/New folder/if else scanner/if else scanner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/if else scanner/if else scanner2.iml" filepath="$PROJECT_DIR$/01/New folder/if else scanner/if else scanner2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/java 2/java 2.iml" filepath="$PROJECT_DIR$/02/New folder/java 2/java 2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/java 2/java 3.iml" filepath="$PROJECT_DIR$/01/New folder/java 2/java 3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/java basics/java basics.iml" filepath="$PROJECT_DIR$/01/java basics/java basics.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/java files.iml" filepath="$PROJECT_DIR$/.idea/java files.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/p2/p2.iml" filepath="$PROJECT_DIR$/01/New folder/p2/p2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/p3/p3.iml" filepath="$PROJECT_DIR$/01/New folder/p3/p3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/p4/p4.iml" filepath="$PROJECT_DIR$/01/New folder/p4/p4.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/p4/p5.iml" filepath="$PROJECT_DIR$/02/New folder/p4/p5.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/p3/p6.iml" filepath="$PROJECT_DIR$/02/New folder/p3/p6.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/p2/p7.iml" filepath="$PROJECT_DIR$/02/New folder/p2/p7.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/practice/practice.iml" filepath="$PROJECT_DIR$/01/New folder/practice/practice.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/practice/practice2.iml" filepath="$PROJECT_DIR$/02/New folder/practice/practice2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/practice/practice3.iml" filepath="$PROJECT_DIR$/01/practice/practice3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/prmitive Vs reference data type/prmitive Vs reference data type.iml" filepath="$PROJECT_DIR$/01/New folder/prmitive Vs reference data type/prmitive Vs reference data type.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/prmitive Vs reference data type/prmitive Vs reference data type2.iml" filepath="$PROJECT_DIR$/02/New folder/prmitive Vs reference data type/prmitive Vs reference data type2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/pro array sort writing file  and reading/pro array sort writing file  and reading.iml" filepath="$PROJECT_DIR$/01/pro array sort writing file  and reading/pro array sort writing file  and reading.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/pro array sort writing file  and reading/pro array sort writing file  and reading2.iml" filepath="$PROJECT_DIR$/02/pro array sort writing file  and reading/pro array sort writing file  and reading2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/switch 2/switch 2.iml" filepath="$PROJECT_DIR$/02/New folder/switch 2/switch 2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/switch 2/switch 3.iml" filepath="$PROJECT_DIR$/01/New folder/switch 2/switch 3.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/tester/tester.iml" filepath="$PROJECT_DIR$/01/tester/tester.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/variable/variable.iml" filepath="$PROJECT_DIR$/01/New folder/variable/variable.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/variable/variable2.iml" filepath="$PROJECT_DIR$/02/New folder/variable/variable2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/variabls primitive data types/variabls primitive data types.iml" filepath="$PROJECT_DIR$/01/New folder/variabls primitive data types/variabls primitive data types.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/variabls primitive data types/variabls primitive data types2.iml" filepath="$PROJECT_DIR$/02/New folder/variabls primitive data types/variabls primitive data types2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/while looop scanner/while looop scanner.iml" filepath="$PROJECT_DIR$/02/New folder/while looop scanner/while looop scanner.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/while looop scanner/while looop scanner2.iml" filepath="$PROJECT_DIR$/01/New folder/while looop scanner/while looop scanner2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/while loop/while loop.iml" filepath="$PROJECT_DIR$/02/New folder/while loop/while loop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/while loop scanner if/while loop scanner if.iml" filepath="$PROJECT_DIR$/01/New folder/while loop scanner if/while loop scanner if.iml" />
+      <module fileurl="file://$PROJECT_DIR$/02/New folder/while loop scanner if/while loop scanner if2.iml" filepath="$PROJECT_DIR$/02/New folder/while loop scanner if/while loop scanner if2.iml" />
+      <module fileurl="file://$PROJECT_DIR$/01/New folder/while loop/while loop2.iml" filepath="$PROJECT_DIR$/01/New folder/while loop/while loop2.iml" />
+    </modules>
+  </component>
+</project>
