@@ -6,6 +6,9 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Data // this will generate getter,setter, toString
 @AllArgsConstructor // this will generate all arg constructor
 @NoArgsConstructor // this will generate no arg constructor
@@ -32,4 +35,7 @@ public class Post {
 
     @Column (name = "content" , nullable = false)
     private String content;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
 }

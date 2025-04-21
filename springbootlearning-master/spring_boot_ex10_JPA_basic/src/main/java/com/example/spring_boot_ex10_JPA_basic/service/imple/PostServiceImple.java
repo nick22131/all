@@ -6,6 +6,7 @@ import com.example.spring_boot_ex10_JPA_basic.payload.PostDTO;
 import com.example.spring_boot_ex10_JPA_basic.payload.PostResponse;
 import com.example.spring_boot_ex10_JPA_basic.repository.PostRepository;
 import com.example.spring_boot_ex10_JPA_basic.service.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -19,8 +20,10 @@ import java.util.stream.Collectors;
 public class PostServiceImple implements PostService {
 
     private final PostRepository pstRepo;
+    private final ModelMapper mapper;
 
-    public PostServiceImple (PostRepository pstRepo) {
+    public PostServiceImple (PostRepository pstRepo, ModelMapper mapper) {
+        this.mapper = mapper;
         this.pstRepo = pstRepo;
     }
 
