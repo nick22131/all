@@ -77,4 +77,37 @@ public class CommentServiceImple implements CommentService {
     }
 
 
+    @Override
+    public CommentDTO updateComment(Long postId, Long commentId, CommentDTO commentRequest){
+        Post post = postRepository.findById(postId).orElseThrow(
+                ()-> new ResourceNotFoundException("Post", "id", commentId)
+        );
+        Comment comment = commentRepository.findById(commentId).orElseThrow (
+                ()-> new ResourceNotFoundException("Comment", "id", commentId));
+        if(!comment.getPost().getId().equals(post.getId())){
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "comment does not belong to post ");
+        }
+        comment.setName(commentRequest.getName());
+        comment.setEmail(commentRequest.getEmail());
+        comment.setBody(commentRequest.getBody());
+
+        Comment updateComment = commentRepository.save(comment);
+        return mapToDTO(comment);
+
+    }
+
+    @Override
+    public void deleteComment(Long postId, Long commentId){
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new ResourceNotFoundException("Post", "id", postId));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                ()->new ResourceNotFoundException("Comment", "id" , commentId)
+         );
+        if(!comment.getPost().getId().equals(post.getId())){
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "comment does not belongs to post"   );
+        }
+        commentRepository.delete(comment);
+    }
+
+
 }
