@@ -2,14 +2,13 @@ package com.example.spring_boot_ex10_JPA_basic.entity;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.HashSet;
 import java.util.Set;
 
-@Data // this will generate getter,setter, toString
+@Getter
+@Setter
 @AllArgsConstructor // this will generate all arg constructor
 @NoArgsConstructor // this will generate no arg constructor
 
