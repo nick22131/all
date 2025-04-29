@@ -1,0 +1,643 @@
+package com.example.spring_boot_ex10_JPA_basic.Controller;
+
+import com.example.spring_boot_ex10_JPA_basic.payload.CommentDTO;
+import com.example.spring_boot_ex10_JPA_basic.service.CommentService;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/")
+public class CommentController {
+    private CommentService commentService;
+    public CommentController(CommentService commentService){
+        this.commentService = commentService;
+    }
+    //http://localhost:8080/api/posts/{postId}/comments
+
+    @PostMapping("/posts/{postId}/comments")
+    public ResponseEntity<CommentDTO> createComment(@PathVariable (value = "postId") long postId ,
+                                                    @RequestBody CommentDTO commentDTO ){
+
+        return new ResponseEntity<>(commentService.createComment(postId, commentDTO), HttpStatus.CREATED);
+    }
+
+    //http://localhost:8080/api/posts/{postId}/comments
+    @GetMapping("/posts/{postId}/comments")
+    public List<CommentDTO> getCommentsByPostId(@PathVariable Long postId){
+        return commentService.getCommentsByPostId(postId);
+    }
+
+    //http://localhost:8080/api/posts/{postId}/comments/{Id}
+   @GetMapping ("/posts/{postId}/comments/{Id}")
+    public ResponseEntity<CommentDTO> getCommentById(@PathVariable(value = "postId")  Long postId ,
+                                                     @PathVariable(value = "Id") Long commentId ){
+        CommentDTO commentDTO = commentService.getCommentById(postId, commentId);
+        return new ResponseEntity<>(commentDTO, HttpStatus.OK);
+   }
+
+   @PutMapping("/post/{postId}/comments/{id}")
+    public ResponseEntity<CommentDTO> updateComment(@PathVariable(value= "postId") Long postId,
+                                                    @PathVariable(value = "id" ) Long commentId,
+                                                    @RequestBody CommentDTO commentDTO){
+        CommentDTO updatedComment = commentService.updateComment(postId, commentId, commentDTO);
+        return new ResponseEntity<>(updatedComment, HttpStatus.OK   );
+   }
+
+   @DeleteMapping("/posts/{postId}/comments/{id}")
+    public ResponseEntity<String> deleteComment(@PathVariable(value = "postId" ) Long postId,
+                                                @PathVariable(value = "id")Long commentId){
+
+        commentService.deleteComment(postId, commentId);
+        return new ResponseEntity<>("Comment delete Successfully", HttpStatus.OK);
+   }
+}
+
+
+
+
+package com.example.spring_boot_ex10_JPA_basic.Controller;
+
+
+import com.example.spring_boot_ex10_JPA_basic.payload.PostDTO;
+import com.example.spring_boot_ex10_JPA_basic.payload.PostResponse;
+import com.example.spring_boot_ex10_JPA_basic.service.PostService;
+import com.example.spring_boot_ex10_JPA_basic.utilis.AppConstants;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/posts")
+public class PostController {
+    private PostService postService;
+
+    public PostController (PostService postService){
+        this.postService = postService;
+    }
+    //http://localhost:8080/api/posts
+    @PostMapping
+    public ResponseEntity<PostDTO> createPost(@RequestBody PostDTO postDTO ){
+        return new ResponseEntity<>(postService.createPost(postDTO), HttpStatus.CREATED);
+    }
+
+    //http
+    @GetMapping
+    public PostResponse getAllPosts(
+            @RequestParam(value = "pageNo", defaultValue = AppConstants.DEFAULT_PAGE_NUMBER, required = false)int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = AppConstants.DEFAULT_PAGE_SIZE, required = false) int pageSize,
+            @RequestParam(value = "sortBy", defaultValue = AppConstants.DEFAULT_SORT_BY, required = false )String sortBy,
+            @RequestParam(value = "sortDir" ,defaultValue = AppConstants.DEFAULT_SORT_DIRECTION, required = false)String sortDir
+    ){
+        return postService.getAllPosts(pageNo, pageSize, sortBy, sortDir);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<PostDTO> getPostById(@PathVariable(name = "id") long id ) {
+        return ResponseEntity.ok(postService.getPostById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PostDTO> updatePost(@RequestBody PostDTO postDTO , @PathVariable(name= "id") long id ){
+     PostDTO postResponse = postService.updatePost(postDTO , id );
+     return new ResponseEntity<>(postResponse, HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id){
+        postService.deletePostById(id);
+        return new ResponseEntity<>("post Entity deleted Successfully", HttpStatus.OK);
+    }
+}
+package com.example.spring_boot_ex10_JPA_basic.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
+@Entity
+@Table(name = "comments")
+
+public class Comment {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id ;
+    private String name;
+    private  String email;
+    private String body;
+
+    @ManyToOne (fetch = FetchType.LAZY)
+    @JoinColumn(name = "post_id", nullable = false)
+    private Post post;
+}
+
+package com.example.spring_boot_ex10_JPA_basic.entity;
+
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
+@AllArgsConstructor // this will generate all arg constructor
+@NoArgsConstructor // this will generate no arg constructor
+
+@Entity // this will mark this class as entity
+@Table(   // this will generate table
+        name = "posts" , // this will give table name
+        uniqueConstraints = { @UniqueConstraint(columnNames =  {"title"})} // this will give unique constraint
+        // and unique constraint means it will do not allow duplicate of title
+)
+public class Post {
+
+    @Id // this will mark id as primary key
+    @GeneratedValue(  // this will generate id
+            strategy = GenerationType.IDENTITY // this will generate auto increment
+    )
+    private Long id;
+
+    @Column(name = "title", nullable = false ) // this will give column name and provide properties in column
+    private String title ;
+
+    @Column(name = "description", nullable =false  )
+    private String description;
+
+    @Column (name = "content" , nullable = false)
+    private String content;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
+}
+
+
+package com.example.spring_boot_ex10_JPA_basic.exception;
+
+public class ResourceNotFoundException extends RuntimeException{
+    private String resourceName ;
+    private String fieldName ;
+    private long fieldValue;
+
+
+    public String getResourceName() {
+
+        return resourceName;
+    }
+
+    public String getFieldName() {
+
+        return fieldName;
+    }
+
+    public long getFieldValue() {
+        return fieldValue;
+    }
+
+    public ResourceNotFoundException (String resourceName , String fieldName , long fieldValue){
+        super(String.format("%s not found with %s : %s",resourceName,fieldName,fieldValue));
+        this.resourceName = resourceName ;
+        this.fieldName = fieldName ;
+        this.fieldValue = fieldValue;
+
+    }
+
+
+
+}
+
+
+package com.example.spring_boot_ex10_JPA_basic.entity;
+
+
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.util.HashSet;
+import java.util.Set;
+
+@Getter
+@Setter
+@AllArgsConstructor // this will generate all arg constructor
+@NoArgsConstructor // this will generate no arg constructor
+
+@Entity // this will mark this class as entity
+@Table(   // this will generate table
+        name = "posts" , // this will give table name
+        uniqueConstraints = { @UniqueConstraint(columnNames =  {"title"})} // this will give unique constraint
+        // and unique constraint means it will do not allow duplicate of title
+)
+public class Post {
+
+    @Id // this will mark id as primary key
+    @GeneratedValue(  // this will generate id
+            strategy = GenerationType.IDENTITY // this will generate auto increment
+    )
+    private Long id;
+
+    @Column(name = "title", nullable = false ) // this will give column name and provide properties in column
+    private String title ;
+
+    @Column(name = "description", nullable =false  )
+    private String description;
+
+    @Column (name = "content" , nullable = false)
+    private String content;
+
+    @OneToMany(mappedBy = "post", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Comment> comments = new HashSet<>();
+}
+package com.example.spring_boot_ex10_JPA_basic.exception;
+
+import org.springframework.http.HttpStatus;
+
+public class BlogAPIException extends RuntimeException {
+    private HttpStatus status;
+    private String message;
+
+    public BlogAPIException(HttpStatus status, String message ) {
+        this.status = status;
+        this.message = message;
+    }
+
+    public BlogAPIException (String message , HttpStatus status, String message1) {
+        super(message);
+        this.status = status ;
+        this.message = message1 ;
+    }
+
+    public HttpStatus getStatus(){
+        return status;
+    }
+}
+package com.example.spring_boot_ex10_JPA_basic.payload;
+
+import lombok.Data;
+
+@Data
+public class CommentDTO {
+    private long id ;
+    private String name ;
+    private String email;
+    private String body;
+}
+package com.example.spring_boot_ex10_JPA_basic.payload;
+
+
+import lombok.Data;
+
+import java.util.Set;
+
+@Data
+public class PostDTO {
+    private long id ;
+    private String title ;
+    private String description ;
+    private String content;
+    private Set<CommentDTO> comments;
+}
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.List;
+
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class PostResponse {
+    private List<PostDTO> content;
+    private int pageNo;
+    private int pageSize;
+    private long totalElements;
+    private int totalPages;
+    private boolean last;
+}
+package com.example.spring_boot_ex10_JPA_basic.repository;
+
+
+import com.example.spring_boot_ex10_JPA_basic.entity.Comment;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
+
+public interface CommentRepository extends JpaRepository<Comment,Long> {
+    List<Comment> findByPostId(long postsId);
+}
+package com.example.spring_boot_ex10_JPA_basic.repository;
+
+import com.example.spring_boot_ex10_JPA_basic.entity.Post;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface PostRepository  extends JpaRepository<Post, Long> {
+
+
+}
+package com.example.spring_boot_ex10_JPA_basic.service;
+
+import com.example.spring_boot_ex10_JPA_basic.entity.Comment;
+import com.example.spring_boot_ex10_JPA_basic.payload.CommentDTO;
+import org.modelmapper.ModelMapper;
+
+import java.util.List;
+
+
+public interface CommentService {
+
+
+    public CommentDTO createComment(long postId , CommentDTO commentDTO);
+    public List<CommentDTO> getCommentsByPostId(long postId);
+    public CommentDTO getCommentById(Long postId, Long commentId);
+    public CommentDTO updateComment(Long postId, Long commentId, CommentDTO commentRequest);
+    void deleteComment(Long postId , Long commentId);
+}
+package com.example.spring_boot_ex10_JPA_basic.service;
+
+import com.example.spring_boot_ex10_JPA_basic.payload.PostDTO;
+import com.example.spring_boot_ex10_JPA_basic.payload.PostResponse;
+
+import java.util.List;
+
+public interface PostService {
+    PostDTO createPost (PostDTO postDTO);
+
+    PostResponse getAllPosts(int pageNo , int pageSize, String sortBy, String sortDir);
+
+    PostDTO getPostById(long id);
+
+    PostDTO updatePost(PostDTO postDTO, long id );
+
+    void deletePostById(long id);
+
+
+}
+package com.example.spring_boot_ex10_JPA_basic.service.imple;
+
+import com.example.spring_boot_ex10_JPA_basic.entity.Comment;
+import com.example.spring_boot_ex10_JPA_basic.entity.Post;
+import com.example.spring_boot_ex10_JPA_basic.exception.BlogAPIException;
+import com.example.spring_boot_ex10_JPA_basic.exception.ResourceNotFoundException;
+import com.example.spring_boot_ex10_JPA_basic.payload.CommentDTO;
+import com.example.spring_boot_ex10_JPA_basic.repository.CommentRepository;
+import com.example.spring_boot_ex10_JPA_basic.repository.PostRepository;
+import com.example.spring_boot_ex10_JPA_basic.service.CommentService;
+import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class CommentServiceImple implements CommentService {
+
+    private CommentRepository commentRepository;
+    private  ModelMapper mapper;
+    private PostRepository postRepository;
+
+    public CommentServiceImple(CommentRepository commentRepository, ModelMapper mapper,PostRepository postRepository) {
+        this.commentRepository = commentRepository;
+        this.mapper = mapper;
+        this.postRepository = postRepository;
+    }
+
+    private CommentDTO mapToDTO(Comment comment){
+        CommentDTO commentDTO = mapper.map(comment, CommentDTO.class);
+        return commentDTO;
+    }
+
+    private Comment mapToEntity(CommentDTO commentDTO){
+        Comment comment = mapper.map(commentDTO, Comment.class);
+        return comment;
+    }
+
+
+
+    @Override
+    public CommentDTO createComment(long postId ,CommentDTO commentDTO){
+
+        Comment comment = mapToEntity(commentDTO);
+
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new ResourceNotFoundException("Post", "id", postId )
+        );
+     comment.setPost(post);
+     Comment newComment = commentRepository.save(comment);
+     return mapToDTO(newComment);
+
+    }
+
+    @Override
+    public List<CommentDTO> getCommentsByPostId(long postId) {
+        List<Comment> comments = commentRepository.findByPostId(postId);
+        return comments.stream().map(comment -> mapToDTO(comment)).collect(Collectors.toList()
+        );
+    }
+
+    @Override
+    public CommentDTO getCommentById(Long postId, Long commentId ){
+        Post post = postRepository.findById(postId).orElseThrow (
+                ()->new ResourceNotFoundException("Post", "id", commentId)
+        );
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                () -> new ResourceNotFoundException("Comment", "id", commentId)
+        );
+        if(!comment.getPost().getId().equals(post.getId())){
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "comment does not belong to this post");
+        }
+        return mapToDTO(comment);
+
+    }
+
+
+    @Override
+    public CommentDTO updateComment(Long postId, Long commentId, CommentDTO commentRequest){
+        Post post = postRepository.findById(postId).orElseThrow(
+                ()-> new ResourceNotFoundException("Post", "id", commentId)
+        );
+        Comment comment = commentRepository.findById(commentId).orElseThrow (
+                ()-> new ResourceNotFoundException("Comment", "id", commentId));
+        if(!comment.getPost().getId().equals(post.getId())){
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "comment does not belong to post ");
+        }
+        comment.setName(commentRequest.getName());
+        comment.setEmail(commentRequest.getEmail());
+        comment.setBody(commentRequest.getBody());
+
+        Comment updateComment = commentRepository.save(comment);
+        return mapToDTO(comment);
+
+    }
+
+    @Override
+    public void deleteComment(Long postId, Long commentId){
+        Post post = postRepository.findById(postId).orElseThrow(
+                () -> new ResourceNotFoundException("Post", "id", postId));
+        Comment comment = commentRepository.findById(commentId).orElseThrow(
+                ()->new ResourceNotFoundException("Comment", "id" , commentId)
+         );
+        if(!comment.getPost().getId().equals(post.getId())){
+            throw new BlogAPIException(HttpStatus.BAD_REQUEST, "comment does not belongs to post"   );
+        }
+        commentRepository.delete(comment);
+    }
+
+
+}
+package com.example.spring_boot_ex10_JPA_basic.service.imple;
+
+import com.example.spring_boot_ex10_JPA_basic.entity.Post;
+import com.example.spring_boot_ex10_JPA_basic.exception.ResourceNotFoundException;
+import com.example.spring_boot_ex10_JPA_basic.payload.PostDTO;
+import com.example.spring_boot_ex10_JPA_basic.payload.PostResponse;
+import com.example.spring_boot_ex10_JPA_basic.repository.PostRepository;
+import com.example.spring_boot_ex10_JPA_basic.service.PostService;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.awt.print.Pageable;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+public class PostServiceImple implements PostService {
+
+    private final PostRepository pstRepo;
+    private final ModelMapper mapper;
+
+    public PostServiceImple (PostRepository pstRepo, ModelMapper mapper) {
+        this.mapper = mapper;
+        this.pstRepo = pstRepo;
+    }
+
+    // convert Entity into DTO
+    private PostDTO mapToDTO(Post post){
+        PostDTO postDTO = new PostDTO();
+        postDTO.setId(post.getId());
+        postDTO.setTitle(post.getTitle());
+        postDTO.setDescription(post.getDescription());
+        postDTO.setContent(post.getContent());
+        return postDTO;
+    }
+    // convert DTO to Entity
+    private Post mapToEntity(PostDTO postDTO){
+        Post post = new Post();
+        post.setTitle (postDTO.getTitle ());
+        post.setDescription (postDTO.getDescription());
+        post.setContent(postDTO.getContent());
+        return post;
+    }
+
+
+
+
+    @Override
+    public PostDTO createPost(PostDTO postDTO) {
+        // Convert DTO to Entity
+        Post post = mapToEntity(postDTO);
+        Post newPost = pstRepo.save(post); // this saves post in database
+
+        PostDTO postResponse = mapToDTO(newPost);
+       return postResponse;
+
+
+    }
+
+    @Override
+    public PostResponse getAllPosts (int pageNo, int pageSize, String sortBy,String sortDir){
+        Sort sort = sortDir.equalsIgnoreCase(Sort.Direction.ASC.name()) ?
+                Sort.by(sortBy).ascending() : Sort.by(sortBy).descending();
+
+        org.springframework.data.domain.Pageable pageable = PageRequest.of(pageNo,pageSize, sort);
+        Page<Post> posts = pstRepo.findAll((org.springframework.data.domain.Pageable) pageable);
+        List<Post> listofPosts = posts.getContent();
+
+        List<PostDTO>content = listofPosts.stream()
+                .map(post -> mapToDTO(post))
+                .collect(Collectors.toList());
+
+        PostResponse postResponse = new PostResponse();
+        postResponse.setContent(content);
+        postResponse.setPageNo(posts.getNumber());
+        postResponse.setPageSize(posts.getSize());
+        postResponse.setTotalElements(posts.getTotalElements());
+        postResponse.setTotalPages(posts.getTotalPages());
+        postResponse.setLast(posts.isLast());
+        return postResponse;
+    }
+
+
+   @Override
+    public PostDTO getPostById(long id){
+        Post post = pstRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post", "id", id ));
+        return mapToDTO(post);
+    }
+
+    @Override
+    public PostDTO updatePost(PostDTO postDTO, long id ){
+        Post post = pstRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post","id", id));
+        post.setTitle(postDTO.getTitle());
+        post.setDescription(postDTO.getDescription());
+        post.setContent(postDTO.getContent());
+
+        Post updatePost = pstRepo.save(post);
+        return mapToDTO(updatePost);
+    }
+
+   @Override
+    public void deletePostById(long id){
+        // get post by id from the database
+       Post post = pstRepo.findById(id).orElseThrow(() -> new ResourceNotFoundException("Post","id", id ));
+       pstRepo.delete(post);
+
+   }
+
+}
+package com.example.spring_boot_ex10_JPA_basic.utilis;
+
+public class AppConstants {
+    public static final String DEFAULT_PAGE_NUMBER = "0";
+    public static final String DEFAULT_PAGE_SIZE = "10";
+    public static final String DEFAULT_SORT_BY = "id";
+    public static final String DEFAULT_SORT_DIRECTION = "asc";
+}
+package com.example.spring_boot_ex10_JPA_basic;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+@SpringBootApplication
+public class SpringBootEx10JpaBasicApplication {
+
+	@Bean
+	public ModelMapper modelMapper(){
+		return new ModelMapper();
+	}
+
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootEx10JpaBasicApplication.class, args);
+	}
+
+}
+
+
+
+
