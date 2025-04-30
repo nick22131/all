@@ -4,8 +4,8 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.springframework.format.annotation.DateTimeFormat;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,9 +28,14 @@ public class Order {
     private Set<OrderItem> orderItems = new HashSet<>();
 
     @Column(nullable = false)
-    private double totalAmount;
+    private BigDecimal totalAmount;
 
     @Column(nullable = false)
     private LocalDateTime orderDate;
+    @Embedded
+    private Address shippingAddress;
+
+    @Column(nullable = false)
+    private String paymentMethod;
 
 }

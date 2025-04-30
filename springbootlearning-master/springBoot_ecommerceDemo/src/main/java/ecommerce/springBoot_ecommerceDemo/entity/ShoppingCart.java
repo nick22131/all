@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.math.BigDecimal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,5 +27,5 @@ public class ShoppingCart {
     private Set<CartItem> items = new HashSet<>();
 
     @Column(nullable = false)
-    private double total;
+    private BigDecimal total;
 }
