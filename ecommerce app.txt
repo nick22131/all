@@ -1,0 +1,1001 @@
+package ecommerce.springBoot_ecommerceDemo;
+
+import org.modelmapper.ModelMapper;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+
+@SpringBootApplication
+public class SpringBootEcommerceDemoApplication {
+
+	@Bean
+	public ModelMapper modelMapper(){
+		return new ModelMapper();
+	}
+	public static void main(String[] args) {
+		SpringApplication.run(SpringBootEcommerceDemoApplication.class, args);
+
+
+	}
+
+
+}
+
+
+package ecommerce.springBoot_ecommerceDemo.controller;
+
+import ecommerce.springBoot_ecommerceDemo.payload.MonthlySalesDTO;
+import ecommerce.springBoot_ecommerceDemo.payload.OrderDTO;
+import ecommerce.springBoot_ecommerceDemo.payload.OrderRequest;
+import ecommerce.springBoot_ecommerceDemo.service.OrderService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/orders")
+@RequiredArgsConstructor
+public class OrderController {
+    private final OrderService orderService;
+
+    @PostMapping("/place/{customerId}")
+    public ResponseEntity<OrderDTO> placeOrder(
+            @PathVariable Long customerId,
+            @Valid @RequestBody OrderRequest orderRequest) {
+        return new ResponseEntity<>(orderService.placeOrder(customerId, orderRequest), HttpStatus.CREATED);
+    }
+
+    @GetMapping("/customer/{customerId}")
+    public ResponseEntity<List<OrderDTO>> getCustomerOrders(@PathVariable Long customerId) {
+        return ResponseEntity.ok(orderService.getCustomerOrders(customerId));
+    }
+
+    @GetMapping("/sales-report")
+    public ResponseEntity<List<MonthlySalesDTO>> getMonthlySalesReport(
+            @RequestParam int year) {
+        return ResponseEntity.ok(orderService.getMonthlySalesReport(year));
+    }
+
+    // Other endpoints...
+}
+
+package ecommerce.springBoot_ecommerceDemo.controller;
+
+import ecommerce.springBoot_ecommerceDemo.payload.ProductDTO;
+import ecommerce.springBoot_ecommerceDemo.service.ProductService;
+import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/products")
+@RequiredArgsConstructor
+public class ProductController {
+    private final ProductService productService;
+
+    @GetMapping
+    public ResponseEntity<List<ProductDTO>> getAllProducts() {
+        return ResponseEntity.ok(productService.getAllProducts());
+    }
+
+    @GetMapping("/category/{categoryName}")
+    public ResponseEntity<List<ProductDTO>> getProductsByCategory(@PathVariable String categoryName) {
+        return ResponseEntity.ok(productService.getProductsByCategory(categoryName));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<List<ProductDTO>> searchProducts(@RequestParam String keyword) {
+        return ResponseEntity.ok(productService.searchProducts(keyword));
+    }
+
+    @GetMapping("/price-range")
+    public ResponseEntity<List<ProductDTO>> getProductsInPriceRange(
+            @RequestParam BigDecimal minPrice,
+            @RequestParam BigDecimal maxPrice) {
+        return ResponseEntity.ok(productService.getProductsInPriceRange(minPrice, maxPrice));
+    }
+
+    @PostMapping
+    public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
+        return new ResponseEntity<>(productService.createProduct(productDTO), HttpStatus.CREATED);
+    }
+
+    // Other endpoints...
+}
+
+package ecommerce.springBoot_ecommerceDemo.entity;
+
+import jakarta.persistence.Embeddable;
+
+
+@Embeddable  // Marks this as a reusable component that can be embedded in other entities
+public class Address {
+    private String street;
+    private String city;
+    private String state;
+    private String country;
+    private String zipCode;
+
+    // Constructors
+    public Address() {
+    }  // Required by JPA
+
+    public Address(String street, String city, String state, String country, String zipCode) {
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.zipCode = zipCode;
+    }
+}
+
+
+package ecommerce.springBoot_ecommerceDemo.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "cart_items")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
+public class CartItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id ;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "shopping_cart_id", nullable = false)
+    private ShoppingCart shoppingCart;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
+    @Column(nullable = false)
+    private Integer quantity;
+}
+
+package ecommerce.springBoot_ecommerceDemo.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.util.HashSet;
+import java.util.Set;
+
+
+@Entity
+@Table(name = "catergories")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class Category {
+   @Id
+   @GeneratedValue(strategy =  GenerationType.IDENTITY)
+    private Long id ;
+
+   @Column(nullable = false , unique = true)
+    private String name;
+
+    @OneToMany(mappedBy = "category" , cascade =CascadeType.ALL, orphanRemoval = true)
+    private Set<Product> products =  new HashSet<>();
+}
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name= "customers")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+
+public class Customer {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id ;
+
+    @Column(nullable = false)
+    private String firstName;
+
+    @Column(nullable = false)
+    private String lastName;
+
+    @Column(nullable = false, unique = true)
+    private String email;
+
+    @Column(nullable = false )
+    private String password;
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Order> orders = new HashSet<>();
+
+    @OneToMany(mappedBy = "customer", cascade = CascadeType.ALL, orphanRemoval = true)
+    private ShoppingCart shoppingCart;
+
+}
+package ecommerce.springBoot_ecommerceDemo.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name = "orders")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class Order {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id ;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
+    @OneToMany(mappedBy = "order" , cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<OrderItem> orderItems = new HashSet<>();
+
+    @Column(nullable = false)
+    private BigDecimal totalAmount;
+
+    @Column(nullable = false)
+    private LocalDateTime orderDate;
+    @Embedded
+    private Address shippingAddress;
+
+    private String paymentMethod;
+    // other fields and getters/setters
+
+}
+package ecommerce.springBoot_ecommerceDemo.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
+@Entity
+@Table(name = "order_items")
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class OrderItem {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "order_id", nullable =false)
+    private Order order;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id", nullable = false)
+    private Product product;
+
+    @Column(nullable = false)
+    private Integer quantity;
+
+    @Column(nullable = false)
+    private BigDecimal price;
+}
+package ecommerce.springBoot_ecommerceDemo.entity;
+
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+
+
+@Entity
+@Table(name="products")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+
+
+public class Product {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id ;
+
+    @Column(nullable = false)
+    private String name ;
+
+    private String description;
+
+    @Column(nullable = false)
+    private BigDecimal price;
+
+    @Column(nullable = false)
+    private Integer stockQuantity;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name= "category_id")
+    private Category category;
+
+    @OneToMany(mappedBy = "product", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    private Set<OrderItem> orderItems = new HashSet<>();
+
+}
+package ecommerce.springBoot_ecommerceDemo.entity;
+
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.util.HashSet;
+import java.util.Set;
+
+@Entity
+@Table(name="shopping_carts")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ShoppingCart {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private long id;
+
+    @OneToOne
+    @JoinColumn(name = "customer_id", nullable = false)
+    private Customer customer;
+
+    @OneToMany(mappedBy = "shoppingCart" , cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<CartItem> items = new HashSet<>();
+
+    @Column(nullable = false)
+    private BigDecimal total;
+}
+package ecommerce.springBoot_ecommerceDemo.exception;
+
+
+
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+@ResponseStatus(HttpStatus.BAD_REQUEST) // Returns HTTP 400 by default
+public class BusinessException extends RuntimeException {
+
+    private String errorCode; // Optional: for specific error categorization
+    private Object[] args;   // Optional: for message formatting
+
+    public BusinessException(String message) {
+        super(message);
+    }
+
+    public BusinessException(String errorCode, String message) {
+        super(message);
+        this.errorCode = errorCode;
+    }
+
+    public BusinessException(String errorCode, String message, Object... args) {
+        super(message);
+        this.errorCode = errorCode;
+        this.args = args;
+    }
+
+    // Getters
+    public String getErrorCode() {
+        return errorCode;
+    }
+
+    public Object[] getArgs() {
+        return args;
+    }
+}package ecommerce.springBoot_ecommerceDemo.exception;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ErrorResponse {
+    private int status;
+    private String message;
+    private long timestamp;
+}
+package ecommerce.springBoot_ecommerceDemo.exception;
+
+import lombok.Data;
+import lombok.Getter;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.ResponseStatus;
+
+
+@ResponseStatus(value = HttpStatus.NOT_FOUND)
+public class ResourceNotFoundException extends RuntimeException {
+    @Getter
+    private String resourceName;
+    @Getter
+    private String fieldName;
+    @Getter
+    private Object fieldValue;
+
+
+    public ResourceNotFoundException(String resourceName, String fieldName,
+                                     Object fieldValue){
+        super(String.format("%s not found with %s : '%s'", resourceName,fieldName, fieldValue));
+        this.resourceName = resourceName;
+        this.fieldName = fieldName;
+        this.fieldValue = fieldValue;
+    }
+
+}
+package ecommerce.springBoot_ecommerceDemo.payload;
+
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
+
+public class AddressDTO {
+    @NotBlank(message = "Street cannot be blank")
+    private String street;
+
+    @NotBlank(message = "City cannot be blank")
+    private String city;
+
+    @Size(min = 2, max = 2, message = "State must be 2 characters")
+    private String state;
+
+    @NotBlank(message = "Country cannot be blank")
+    private String country;
+
+    @Pattern(regexp = "^[0-9]{5}(?:-[0-9]{4})?$", message = "Invalid zip code format")
+    private String zipCode;
+
+    // Constructors
+    public AddressDTO() {}
+
+    public AddressDTO(String street, String city, String state, String country, String zipCode) {
+        this.street = street;
+        this.city = city;
+        this.state = state;
+        this.country = country;
+        this.zipCode = zipCode;
+    }
+
+    // Getters and Setters
+    // ... (same as Address entity)
+}package ecommerce.springBoot_ecommerceDemo.payload;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class MonthlySalesDTO {
+    private Integer month;
+    private BigDecimal total;
+}
+package ecommerce.springBoot_ecommerceDemo.payload;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public class OrderDTO {
+    private Long id ;
+    private String customerEmail;
+    private List<OrderItemDTO> items;
+    private BigDecimal totalAmount;
+
+    private LocalDateTime orderDate;
+
+
+
+}
+package ecommerce.springBoot_ecommerceDemo.payload;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class OrderItemDTO {
+    private Long productId;
+    private String productName;
+    private Integer quantity;
+    private BigDecimal price;
+    private BigDecimal subTotal;
+}
+package ecommerce.springBoot_ecommerceDemo.payload;
+
+// In package: ecommerce.springBoot_ecommerceDemo.payload
+public class OrderItemRequest {
+    private Long productId;
+    private int quantity;
+    // getters/setters
+}
+package ecommerce.springBoot_ecommerceDemo.payload;
+
+
+
+import java.math.BigDecimal;
+
+public class OrderItemResponse {
+    private Long productId;
+    private String productName;
+    private String productImageUrl;
+    private Integer quantity;
+    private BigDecimal unitPrice;
+    private BigDecimal subTotal;
+
+    // Constructors
+    public OrderItemResponse() {}
+
+    public OrderItemResponse(Long productId, String productName, String productImageUrl,
+                             Integer quantity, BigDecimal unitPrice, BigDecimal subTotal) {
+        this.productId = productId;
+        this.productName = productName;
+        this.productImageUrl = productImageUrl;
+        this.quantity = quantity;
+        this.unitPrice = unitPrice;
+        this.subTotal = subTotal;
+    }
+
+    // Getters and Setters
+    public Long getProductId() {
+        return productId;
+    }
+    // ... other getters/setters
+}package ecommerce.springBoot_ecommerceDemo.payload;
+
+import java.util.List;
+
+// In package: ecommerce.springBoot_ecommerceDemo.payload (or dto)
+public class OrderRequest {
+    private Long customerId;
+    private List<OrderItemRequest> items;
+    private AddressDTO shippingAddress;
+    private String paymentMethod;
+    // getters/setters
+}package ecommerce.springBoot_ecommerceDemo.payload;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+// In package: ecommerce.springBoot_ecommerceDemo.payload
+public class OrderResponse {
+    private Long id;
+    private String customerName;
+    private List<OrderItemResponse> items;
+    private BigDecimal totalAmount;
+    private String status;
+    // getters/setters
+}package ecommerce.springBoot_ecommerceDemo.payload;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ProductDTO {
+    private Long id ;
+    private String name;
+    private String description;
+    private BigDecimal price;
+    private Integer stockQuantity;
+    private Long categoryId;
+    private String categoryName;
+    private List<String> imageUrls;
+}
+package ecommerce.springBoot_ecommerceDemo.repository;
+
+import ecommerce.springBoot_ecommerceDemo.entity.Category;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface CategoryRepository extends JpaRepository<Category , Long> {
+}
+package ecommerce.springBoot_ecommerceDemo.repository;
+
+import ecommerce.springBoot_ecommerceDemo.entity.Customer;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.Optional;
+
+public interface CustomerRepository extends JpaRepository<Customer, Long>{
+
+   //Derived Query = find customer by id
+    Optional<Customer> findByEmail(String email);
+
+    // jpql query = find customers who spent more than specified amount
+    @Query("SELECT c FROM Customer c WHERE" +
+    "(SELECT SUM(o.totalAmount) FROM Order o WHERE o.customer = c ) > : amount")
+    List<Customer> findTopSpenders(@Param("amount") BigDecimal amount);
+
+    // Native Query = count customers by City
+    @Query(value = "SELECT address_city as city, COUNT(*) as count FROM customers GROUP BY address_city",
+    nativeQuery = true)
+    List<Object[]> countCustomersByCity();
+
+
+}
+package ecommerce.springBoot_ecommerceDemo.repository;
+
+import ecommerce.springBoot_ecommerceDemo.entity.Order;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.time.LocalDateTime;
+import java.util.List;
+
+public interface OrderRepository extends JpaRepository<Order, Long> {
+
+    // Derived Query = find orders by customer email
+    List<Order> findByCustomerEmail(String email);
+
+    //Jpql Query = find orders within date range
+    @Query("SELECT o FROM Order o WHERE  o.orderDate BETWEEN :startDate AND :endDate" )
+    List<Order> findByOrderDateBetween(@Param("startDate")LocalDateTime startDate ,
+                                       @Param("endDate") LocalDateTime endDate);
+
+    //Native Query = get total sale by Month
+    @Query(value = "SELECT MONTH (order_date) as month, SUM (total_amount) as total"
+    + "FROM orders WHERE YEAR (order_date) = :year GROUP BY MONTH(order_date)" , nativeQuery = true )
+    List<Object[]> getMonthlySales(@Param("year") int year);
+
+    //Derived Query = find order by status
+
+}
+package ecommerce.springBoot_ecommerceDemo.repository;
+
+import ecommerce.springBoot_ecommerceDemo.entity.Product;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.math.BigDecimal;
+import java.util.List;
+
+public interface ProductRepository extends JpaRepository<Product,Long>{
+    //Derived Query = find products by category name
+    List<Product> findByCategoryName(String categoryName);
+
+    // JPQL Query = find products within price range
+    @Query ( "SELECT p FROM Product p WHERE p.price BETWEEN minPrice AND :maxPrice")
+    List<Product> findByPriceRange (@Param("minPrice") BigDecimal minPrice ,
+                                     @Param("maxPrice") BigDecimal maxPrice);
+
+    // Native Query = search products by name or description
+    @Query(value = "SELECT * FROM products p WHERE  p.name LIKE %keyword% OR p.description LIKE %:keyword%" ,
+    nativeQuery = true)
+    List<Product> searchProducts(@Param("keyword") String keyword) ;
+
+    //Derived Query = find products with stock less than specified quantity
+    List<Product> findByStockQuantityLessThan(Integer quantity);
+
+}
+package ecommerce.springBoot_ecommerceDemo.repository;
+
+import ecommerce.springBoot_ecommerceDemo.entity.Customer;
+import ecommerce.springBoot_ecommerceDemo.entity.ShoppingCart;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+
+import java.util.Optional;
+
+public interface ShoppingCartRepository extends JpaRepository<ShoppingCart, Long> {
+    Optional<ShoppingCart> findByCustomer(Customer customer);
+
+    // Option 2: Find by customer ID (often more efficient)
+    Optional<ShoppingCart> findByCustomerId(Long customerId);
+
+    // Option 3: Using JPA query
+    @Query("SELECT sc FROM ShoppingCart sc WHERE sc.customer.id = :customerId")
+    Optional<ShoppingCart> findCartByCustomer(@Param("customerId") Long customerId);
+}
+package ecommerce.springBoot_ecommerceDemo.service;
+
+import ecommerce.springBoot_ecommerceDemo.entity.*;
+import ecommerce.springBoot_ecommerceDemo.exception.BusinessException;
+import ecommerce.springBoot_ecommerceDemo.exception.ResourceNotFoundException;
+import ecommerce.springBoot_ecommerceDemo.payload.MonthlySalesDTO;
+import ecommerce.springBoot_ecommerceDemo.payload.OrderDTO;
+import ecommerce.springBoot_ecommerceDemo.payload.OrderRequest;
+import ecommerce.springBoot_ecommerceDemo.repository.CustomerRepository;
+import ecommerce.springBoot_ecommerceDemo.repository.OrderRepository;
+import ecommerce.springBoot_ecommerceDemo.repository.ProductRepository;
+import ecommerce.springBoot_ecommerceDemo.repository.ShoppingCartRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.boot.web.servlet.filter.OrderedRequestContextFilter;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class OrderService {
+    private final OrderRepository orderRepository;
+    private final CustomerRepository customerRepository;
+    private final ProductRepository productRepository;
+    private final ShoppingCartRepository shoppingCartRepository;
+    private final ModelMapper modelMapper;
+
+    public OrderDTO placeOrder(Long customerId, OrderRequest orderRequest) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", customerId));
+
+        ShoppingCart cart = shoppingCartRepository.findByCustomer(customer)
+                .orElseThrow(() -> new ResourceNotFoundException("ShoppingCart", "customerId", customerId));
+
+        if (cart.getItems().isEmpty()) {
+            throw new BusinessException("Cannot place order with empty cart");
+        }
+
+        Order order = new Order();
+        order.setCustomer(customer);
+        order.setOrderDate(LocalDateTime.now());
+
+
+
+        BigDecimal totalAmount = BigDecimal.ZERO;
+
+        for (CartItem cartItem : cart.getItems()) {
+            OrderItem orderItem = new OrderItem();
+            orderItem.setOrder(order);
+            orderItem.setProduct(cartItem.getProduct());
+            orderItem.setQuantity(cartItem.getQuantity());
+            orderItem.setPrice(cartItem.getProduct().getPrice());
+
+            totalAmount = totalAmount.add(
+                    cartItem.getProduct().getPrice().multiply(BigDecimal.valueOf(cartItem.getQuantity())));
+
+            // Update product stock
+            Product product = cartItem.getProduct();
+            product.setStockQuantity(product.getStockQuantity() - cartItem.getQuantity());
+            productRepository.save(product);
+
+            order.getOrderItems().add(orderItem);
+        }
+
+        order.setTotalAmount(totalAmount);
+        Order savedOrder = orderRepository.save(order);
+
+        // Clear the shopping cart
+        cart.getItems().clear();
+        cart.setTotal(BigDecimal.ZERO);
+        shoppingCartRepository.save(cart);
+
+        return modelMapper.map(savedOrder, OrderDTO.class);
+    }
+
+    public List<OrderDTO> getCustomerOrders(Long customerId) {
+        Customer customer = customerRepository.findById(customerId)
+                .orElseThrow(() -> new ResourceNotFoundException("Customer", "id", customerId));
+
+        List<Order> orders = orderRepository.findByCustomerEmail(customer.getEmail());
+        return orders.stream()
+                .map(order -> modelMapper.map(order, OrderDTO.class))
+                .collect(Collectors.toList());
+    }
+
+    public List<MonthlySalesDTO> getMonthlySalesReport(int year) {
+        List<Object[]> results = orderRepository.getMonthlySales(year);
+        return results.stream()
+                .map(result -> new MonthlySalesDTO((Integer) result[0], (BigDecimal) result[1]))
+                .collect(Collectors.toList());
+    }
+
+    // Other service methods...
+}
+//package ecommerce.springBoot_ecommerceDemo.service;
+//
+//import ecommerce.springBoot_ecommerceDemo.entity.Category;
+//import ecommerce.springBoot_ecommerceDemo.entity.Product;
+//import ecommerce.springBoot_ecommerceDemo.exception.ResourceNotFoundException;
+//import ecommerce.springBoot_ecommerceDemo.payload.ProductDTO;
+//import ecommerce.springBoot_ecommerceDemo.repository.CategoryRepository;
+//import ecommerce.springBoot_ecommerceDemo.repository.ProductRepository;
+//import lombok.RequiredArgsConstructor;
+//import org.modelmapper.ModelMapper;
+//import org.springframework.stereotype.Service;
+//
+//import java.math.BigDecimal;
+//import java.util.List;
+//import java.util.stream.Collectors;
+//
+//@Service
+//@RequiredArgsConstructor
+//public class ProductService {
+//    private final ProductRepository productRepository;
+//    private final CategoryRepository categoryRepository;
+//    private ModelMapper modelMapper;
+//
+//    public ProductDTO createProduct(ProductDTO productDTO){
+//        Category category = categoryRepository.findById(productDTO.getCategoryId())
+//                .orElseThrow(()->new ResourceNotFoundException("Category", "id", productDTO.getCategoryId()));
+//
+//        Product product = modelMapper.map(productDTO, Product.class);
+//        product.setCategory(category);
+//        Product savedProduct = productRepository.save(product);
+//        return modelMapper.map(savedProduct, ProductDTO.class);
+//    }
+//
+//    public List<ProductDTO> getProductsByCategory(String categoryName){
+//        List<Product> products = productRepository.findByCategoryName(categoryName);
+//        return products.stream()
+//                .map(product -> modelMapper.map(product, ProductDTO.class))
+//                .collect(Collectors.toList());
+//    }
+//
+//    public List<ProductDTO> searchProduct(String keyword){
+//        List<Product> products = productRepository.searchProducts(keyword);
+//        return products.stream()
+//                .map(product-> modelMapper.map(product, ProductDTO.class))
+//                .collect(Collectors.toList());
+//    }
+//    public List<ProductDTO> getProductInPriceRange(BigDecimal minPrice, BigDecimal maxPrice){
+//        List<Product> products = productRepository.findByPriceRange(minPrice, maxPrice);
+//        return products.stream()
+//                .map(product -> modelMapper.map(product, ProductDTO.class))
+//                .collect(Collectors.toList());
+//    }
+//}
+
+
+
+package ecommerce.springBoot_ecommerceDemo.service;
+
+import ecommerce.springBoot_ecommerceDemo.payload.ProductDTO;
+import ecommerce.springBoot_ecommerceDemo.entity.Product;
+import ecommerce.springBoot_ecommerceDemo.exception.ResourceNotFoundException;
+import ecommerce.springBoot_ecommerceDemo.repository.ProductRepository;
+import ecommerce.springBoot_ecommerceDemo.repository.CategoryRepository;
+import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Service
+@RequiredArgsConstructor
+public class ProductService {
+    private final ProductRepository productRepository;
+    private final CategoryRepository categoryRepository;
+    private final ModelMapper modelMapper;
+
+    // Get all products (with pagination)
+    public List<ProductDTO> getAllProducts() {
+        List<Product> products = productRepository.findAll();
+        return products.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Search products by keyword
+    public List<ProductDTO> searchProducts(String keyword) {
+        List<Product> products = productRepository.searchProducts(keyword);
+        return products.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Get products within price range
+    public List<ProductDTO> getProductsInPriceRange(BigDecimal minPrice, BigDecimal maxPrice) {
+        List<Product> products = productRepository.findByPriceRange(minPrice, maxPrice);
+        return products.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Get products by category
+    public List<ProductDTO> getProductsByCategory(String categoryName) {
+        List<Product> products = productRepository.findByCategoryName(categoryName);
+        return products.stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    // Get single product by ID
+    public ProductDTO getProductById(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+        return convertToDTO(product);
+    }
+
+    // Create new product
+    public ProductDTO createProduct(ProductDTO productDTO) {
+        Product product = convertToEntity(productDTO);
+        Product savedProduct = productRepository.save(product);
+        return convertToDTO(savedProduct);
+    }
+
+    // Update product
+    public ProductDTO updateProduct(Long id, ProductDTO productDTO) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+
+        modelMapper.map(productDTO, product);
+        Product updatedProduct = productRepository.save(product);
+        return convertToDTO(updatedProduct);
+    }
+
+    // Delete product
+    public void deleteProduct(Long id) {
+        Product product = productRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Product", "id", id));
+        productRepository.delete(product);
+    }
+
+    // Helper methods
+    private ProductDTO convertToDTO(Product product) {
+        return modelMapper.map(product, ProductDTO.class);
+    }
+
+    private Product convertToEntity(ProductDTO productDTO) {
+        return modelMapper.map(productDTO, Product.class);
+    }
+}
+
