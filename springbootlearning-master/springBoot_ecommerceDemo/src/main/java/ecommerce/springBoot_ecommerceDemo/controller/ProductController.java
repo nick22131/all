@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/products")
+@RequestMapping(value = "/api/products")
 @RequiredArgsConstructor
 public class ProductController {
     private final ProductService productService;
@@ -39,9 +39,19 @@ public class ProductController {
         return ResponseEntity.ok(productService.getProductsInPriceRange(minPrice, maxPrice));
     }
 
-    @PostMapping
+    @PostMapping()
     public ResponseEntity<ProductDTO> createProduct(@Valid @RequestBody ProductDTO productDTO) {
+
+        try {
+
+
         return new ResponseEntity<>(productService.createProduct(productDTO), HttpStatus.CREATED);
+    }
+        catch (Exception e){
+            System.out.println(e);
+
+            return null;
+        }
     }
 
     // Other endpoints...

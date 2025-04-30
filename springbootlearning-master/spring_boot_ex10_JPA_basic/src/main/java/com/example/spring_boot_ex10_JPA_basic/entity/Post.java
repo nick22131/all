@@ -14,8 +14,8 @@ import java.util.Set;
 
 @Entity // this will mark this class as entity
 @Table(   // this will generate table
-        name = "posts" , // this will give table name
-        uniqueConstraints = { @UniqueConstraint(columnNames =  {"title"})} // this will give unique constraint
+        name = "posts" // this will give table name
+//        uniqueConstraints = { @UniqueConstraint(columnNames =  {"title"})} // this will give unique constraint
         // and unique constraint means it will do not allow duplicate of title
 )
 public class Post {

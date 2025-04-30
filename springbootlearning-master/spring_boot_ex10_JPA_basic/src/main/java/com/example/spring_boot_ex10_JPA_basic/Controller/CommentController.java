@@ -1,6 +1,7 @@
 package com.example.spring_boot_ex10_JPA_basic.Controller;
 
 import com.example.spring_boot_ex10_JPA_basic.payload.CommentDTO;
+import com.example.spring_boot_ex10_JPA_basic.payload.PostDTO;
 import com.example.spring_boot_ex10_JPA_basic.service.CommentService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -53,4 +54,5 @@ public class CommentController {
         commentService.deleteComment(postId, commentId);
         return new ResponseEntity<>("Comment delete Successfully", HttpStatus.OK);
    }
+
 }

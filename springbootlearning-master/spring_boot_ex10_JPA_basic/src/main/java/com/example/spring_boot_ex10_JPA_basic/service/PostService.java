@@ -1,5 +1,6 @@
 package com.example.spring_boot_ex10_JPA_basic.service;
 
+import com.example.spring_boot_ex10_JPA_basic.entity.Post;
 import com.example.spring_boot_ex10_JPA_basic.payload.PostDTO;
 import com.example.spring_boot_ex10_JPA_basic.payload.PostResponse;
 
@@ -15,6 +16,9 @@ public interface PostService {
     PostDTO updatePost(PostDTO postDTO, long id );
 
     void deletePostById(long id);
+
+    List<Post> getPostByTitle(String title);
+
 
 
 }

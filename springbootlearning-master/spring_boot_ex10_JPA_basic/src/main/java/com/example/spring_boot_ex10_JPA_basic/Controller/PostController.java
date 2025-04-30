@@ -1,6 +1,7 @@
 package com.example.spring_boot_ex10_JPA_basic.Controller;
 
 
+import com.example.spring_boot_ex10_JPA_basic.entity.Post;
 import com.example.spring_boot_ex10_JPA_basic.payload.PostDTO;
 import com.example.spring_boot_ex10_JPA_basic.payload.PostResponse;
 import com.example.spring_boot_ex10_JPA_basic.service.PostService;
@@ -51,5 +52,13 @@ public class PostController {
     public ResponseEntity<String> deletePost(@PathVariable(name = "id") long id){
         postService.deletePostById(id);
         return new ResponseEntity<>("post Entity deleted Successfully", HttpStatus.OK);
+    }
+
+    @GetMapping("/title/")
+    ResponseEntity<List<Post>> getPostByTitle(@RequestParam(name="titl") String title){
+        System.out.println("-->"+title);
+
+        List<Post> postDto = postService.getPostByTitle(title);
+        return new ResponseEntity<>(postDto, HttpStatus.OK);
     }
 }

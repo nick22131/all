@@ -12,7 +12,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
-import java.awt.print.Pageable;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -108,5 +107,11 @@ public class PostServiceImple implements PostService {
        pstRepo.delete(post);
 
    }
+
+    @Override
+    public List<Post> getPostByTitle(String title) {
+       List<Post> post = pstRepo.findByTitle(title);
+       return post;
+    }
 
 }
