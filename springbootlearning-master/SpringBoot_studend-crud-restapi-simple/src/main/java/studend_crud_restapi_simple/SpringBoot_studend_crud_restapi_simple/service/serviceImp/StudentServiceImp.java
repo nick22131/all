@@ -27,4 +27,10 @@ public class StudentServiceImp implements StudentService {
                 .map((student) -> modelMapper.map(student,StudentDTO.class))
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public StudentDTO getStudentById(Integer id) {
+        Student student = studentRepository.findById(id).get();
+        return modelMapper.map(student, StudentDTO.class);
+    }
 }
