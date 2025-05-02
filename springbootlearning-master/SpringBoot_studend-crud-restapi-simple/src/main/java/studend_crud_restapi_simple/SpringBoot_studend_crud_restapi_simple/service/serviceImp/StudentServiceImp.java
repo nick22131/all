@@ -2,6 +2,7 @@ package studend_crud_restapi_simple.SpringBoot_studend_crud_restapi_simple.servi
 
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import studend_crud_restapi_simple.SpringBoot_studend_crud_restapi_simple.entity.Student;
 import studend_crud_restapi_simple.SpringBoot_studend_crud_restapi_simple.payload.StudentDTO;
@@ -9,6 +10,7 @@ import studend_crud_restapi_simple.SpringBoot_studend_crud_restapi_simple.reposi
 import studend_crud_restapi_simple.SpringBoot_studend_crud_restapi_simple.service.StudentService;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -39,5 +41,26 @@ public class StudentServiceImp implements StudentService {
         Student student = modelMapper.map(studentDTO, Student.class);
         Student newStudent= studentRepository.save(student);
         return modelMapper.map(newStudent, StudentDTO.class);
+    }
+
+    @Override
+    public ResponseEntity<StudentDTO> updateStudent(int id, StudentDTO studentDTO) {
+        studentDTO.setRollNo(id);
+        Student student = modelMapper.map(studentDTO, Student.class);
+        studentRepository.save(student);
+        return null;
+    }
+
+    @Override
+    public ResponseEntity<StudentDTO> updateStudentName(int id, String name) {
+      Student s= studentRepository.findById(id).get();
+       s.setName(name);
+        studentRepository.save(s);
+
+
+
+
+
+        return null;
     }
 }
