@@ -5,12 +5,13 @@ import org.modelmapper.ModelMapper;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import studend_crud_restapi_simple.SpringBoot_studend_crud_restapi_simple.entity.Student;
+import studend_crud_restapi_simple.SpringBoot_studend_crud_restapi_simple.exception.ResourceNotFoundException;
 import studend_crud_restapi_simple.SpringBoot_studend_crud_restapi_simple.payload.StudentDTO;
 import studend_crud_restapi_simple.SpringBoot_studend_crud_restapi_simple.repository.StudentRepository;
 import studend_crud_restapi_simple.SpringBoot_studend_crud_restapi_simple.service.StudentService;
 
+import java.lang.module.Configuration;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -26,7 +27,7 @@ public class StudentServiceImp implements StudentService {
         List<Student> students = studentRepository.findAll();
 
         return students.stream()
-                .map((student) -> modelMapper.map(student,StudentDTO.class))
+                .map((student) -> modelMapper.map(student, StudentDTO.class))
                 .collect(Collectors.toList());
     }
 
@@ -37,30 +38,44 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public StudentDTO createStudent(StudentDTO studentDTO){
+    public StudentDTO createStudent(StudentDTO studentDTO) {
         Student student = modelMapper.map(studentDTO, Student.class);
-        Student newStudent= studentRepository.save(student);
+        Student newStudent = studentRepository.save(student);
         return modelMapper.map(newStudent, StudentDTO.class);
     }
 
     @Override
-    public ResponseEntity<StudentDTO> updateStudent(int id, StudentDTO studentDTO) {
-        studentDTO.setRollNo(id);
+    public StudentDTO updateStudent(Integer id, StudentDTO studentDTO) {
+        //studentDTO.setRollNo(id);
         Student student = modelMapper.map(studentDTO, Student.class);
-        studentRepository.save(student);
-        return null;
+        Student updatedStudent = studentRepository.save(student);
+        StudentDTO studentDTO1 = modelMapper.map(updatedStudent, StudentDTO.class);
+        return studentDTO1;
     }
 
     @Override
-    public ResponseEntity<StudentDTO> updateStudentName(int id, String name) {
-      Student s= studentRepository.findById(id).get();
-       s.setName(name);
-        studentRepository.save(s);
+    public StudentDTO patchUpdate(Integer id, StudentDTO patchData) {
+        Student student = studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
+       modelMapper.getConfiguration()
+               .setSkipNullEnabled(true);
+       modelMapper.map(patchData, student);
+       Student updated = studentRepository.save(student);
+       return modelMapper.map(updated, StudentDTO.class);
 
-
-
-
-
-        return null;
     }
+
+
+
+//    @Override
+//    public ResponseEntity<StudentDTO> updateStudentName(int id, String name) {
+//      Student s= studentRepository.findById(id).get();
+//       s.setName(name);
+//        studentRepository.save(s);
+//
+//
+//
+//
+//
+//        return null;
+//    }
 }

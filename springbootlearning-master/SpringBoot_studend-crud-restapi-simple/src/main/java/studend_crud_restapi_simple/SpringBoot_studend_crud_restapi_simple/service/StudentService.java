@@ -10,7 +10,9 @@ public interface StudentService {
     public StudentDTO getStudentById(Integer id);
     public StudentDTO createStudent(StudentDTO studentDTO);
 
-    ResponseEntity<StudentDTO> updateStudent(int id, StudentDTO studentDTO);
+    public StudentDTO updateStudent(Integer id, StudentDTO studentDTO);
 
-    ResponseEntity<StudentDTO> updateStudentName(int id, String name);
+   //ResponseEntity<StudentDTO> updateStudentName(int id, String name);
+
+    public StudentDTO patchUpdate (Integer id , StudentDTO patchData);
 }

@@ -37,13 +37,22 @@ public class StudentController {
 
 
     @PutMapping("/update/{id}")
-    public ResponseEntity<StudentDTO> updateStudent(@PathVariable int id,@RequestBody StudentDTO studentDTO){
-       return studentService.updateStudent(id,studentDTO);
+    public ResponseEntity<StudentDTO> updateStudent(@PathVariable Integer id,@RequestBody StudentDTO studentDTO){
+        StudentDTO studentUpdated =  studentService.updateStudent(id,studentDTO);
+        return new ResponseEntity<>(studentUpdated, HttpStatus.CREATED);
     }
 
-    @PutMapping("/update1/{id}")
-    public ResponseEntity<StudentDTO> updateStudent(@PathVariable int id,@RequestParam String name){
-        return studentService.updateStudentName(id,name);
+    @PatchMapping("/patch/{id}")
+    public ResponseEntity<StudentDTO> patchUpdateStudent(@PathVariable Integer id,
+                                                         @RequestBody StudentDTO patchData) {
+
+         StudentDTO patched = studentService.patchUpdate(id, patchData );
+         return new ResponseEntity<>(patched, HttpStatus.OK );
     }
+
+//    @PutMapping("/update1/{id}")
+//    public ResponseEntity<StudentDTO> updateStudent(@PathVariable int id,@RequestParam String name){
+//        return studentService.updateStudentName(id,name);
+//    }
 
 }
