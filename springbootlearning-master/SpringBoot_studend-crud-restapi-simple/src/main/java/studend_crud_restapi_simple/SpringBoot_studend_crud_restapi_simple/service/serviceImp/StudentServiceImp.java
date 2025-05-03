@@ -54,7 +54,7 @@ public class StudentServiceImp implements StudentService {
     }
 
     @Override
-    public StudentDTO patchUpdate(Integer id, StudentDTO patchData) {
+    public StudentDTO patchUpdateModelMapper(Integer id, StudentDTO patchData) {
         Student student = studentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Student", "id", id));
        modelMapper.getConfiguration()
                .setSkipNullEnabled(true);
@@ -64,6 +64,17 @@ public class StudentServiceImp implements StudentService {
 
     }
 
+    @Override
+    public StudentDTO patchUpdateBasic(Integer id, StudentDTO patchData) {
+        Student existingStudent = studentRepository.findById(id)
+                .orElseThrow(()->new ResourceNotFoundException("Student","rollNo",id));
+        if (patchData.getName() != null) existingStudent.setName(patchData.getName());
+        if (patchData.getBranch()!=null) existingStudent.setBranch(patchData.getBranch());
+        if (patchData.getPercentage() != null) existingStudent.setPercentage(patchData.getPercentage());
+        if(patchData.getRollNo() != null) existingStudent.setRollNo(patchData.getRollNo());
+      Student updatedStudent = studentRepository.save(existingStudent);
+      return modelMapper.map(updatedStudent, StudentDTO.class);
+    }
 
 
 //    @Override

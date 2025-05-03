@@ -14,5 +14,7 @@ public interface StudentService {
 
    //ResponseEntity<StudentDTO> updateStudentName(int id, String name);
 
-    public StudentDTO patchUpdate (Integer id , StudentDTO patchData);
+    public StudentDTO patchUpdateModelMapper (Integer id , StudentDTO patchData);
+
+    public StudentDTO patchUpdateBasic (Integer id,StudentDTO patchData);
 }

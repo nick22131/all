@@ -46,8 +46,15 @@ public class StudentController {
     public ResponseEntity<StudentDTO> patchUpdateStudent(@PathVariable Integer id,
                                                          @RequestBody StudentDTO patchData) {
 
-         StudentDTO patched = studentService.patchUpdate(id, patchData );
+         StudentDTO patched = studentService.patchUpdateModelMapper(id, patchData );
          return new ResponseEntity<>(patched, HttpStatus.OK );
+    }
+
+    @PatchMapping("/patch1/{id}")
+    public ResponseEntity<StudentDTO> patchUpdateStudent1(@PathVariable Integer id,
+                                                          @RequestBody StudentDTO patchData){
+        StudentDTO patched = studentService.patchUpdateBasic(id,patchData);
+        return new ResponseEntity<>(patched, HttpStatus.OK);
     }
 
 //    @PutMapping("/update1/{id}")
