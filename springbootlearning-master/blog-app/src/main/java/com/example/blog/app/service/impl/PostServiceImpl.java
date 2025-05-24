@@ -12,8 +12,8 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
 
-    private PostRepository postRepo;
-    private ModelMapper mapper;
+    private final PostRepository postRepo;
+    private final ModelMapper mapper;
 
 
 
