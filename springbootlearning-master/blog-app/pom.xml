@@ -66,6 +66,11 @@
 			<artifactId>modelmapper</artifactId>
 			<version>3.1.1</version> <!-- Or latest stable version -->
 		</dependency>
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<scope>runtime</scope>
+		</dependency>
 
 	</dependencies>
 
