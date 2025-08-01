@@ -1,9 +1,6 @@
 package post_comment._2.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.HashSet;
@@ -21,9 +18,18 @@ public class Post {
     private String description;
     private String content;
 
-    //private Set<Comment> comments = new HashSet<>();
+    @OneToMany(
+            mappedBy = "post",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true
+    )
+    private Set<Comment> comments = new HashSet<>();
 
-    //private Category category;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id")
+    private Category category;
 
-  //  private User user;
-}//
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+}
