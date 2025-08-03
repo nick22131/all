@@ -1,4 +1,4 @@
-package PostComment._3;
+package comment_post._3;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

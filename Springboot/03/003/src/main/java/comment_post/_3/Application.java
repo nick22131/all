@@ -1,4 +1,4 @@
-package PostComment._3;
+package comment_post._3;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

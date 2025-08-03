@@ -1,4 +1,4 @@
-package PostComment._3.dto;
+package comment_post._3.dto;
 
 import lombok.Data;
 
