@@ -1,7 +1,7 @@
 package comment_post._3.controller;
 
-import comment_post._3.dto.PostDto;
-import comment_post._3.dto.PostResponse;
+import comment_post._3.payload.PostDto;
+import comment_post._3.payload.PostResponse;
 import comment_post._3.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;

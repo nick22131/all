@@ -1,4 +1,4 @@
-package comment_post._3.dto;
+package comment_post._3.payload;
 
 import lombok.Data;
 

@@ -1,11 +1,12 @@
 package comment_post._3.service.imple;
 
-import comment_post._3.dto.PostDto;
-import comment_post._3.dto.PostResponse;
+import comment_post._3.payload.PostDto;
+import comment_post._3.payload.PostResponse;
 import comment_post._3.entity.Post;
 import comment_post._3.exception.ResourceNotFoundException;
 import comment_post._3.repository.PostRepository;
 import comment_post._3.service.PostService;
+import comment_post._3.util.Mapper;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
@@ -21,23 +22,17 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService {
     private final PostRepository postRepository;
-    private final ModelMapper modelMapper;
 
-    PostDto mapToDto(Post post){
-        return modelMapper.map(post,PostDto.class);
-    }
+    private final Mapper mapper;
 
-    Post mapToEntity (PostDto postDto){
-        return modelMapper.map(postDto, Post.class);
-    }
 
 
 
     @Override
     public PostDto createPost(PostDto postDto) {
-        Post post = mapToEntity(postDto);
+        Post post = mapper.mapToPostEntity(postDto);
         Post savedPost = postRepository.save(post);
-        PostDto savedPostDto =  mapToDto(savedPost);
+        PostDto savedPostDto =  mapper.mapToPostDto(savedPost);
         return savedPostDto ;
     }
 
@@ -47,7 +42,7 @@ public class PostServiceImpl implements PostService {
     public PostDto getPostById(Long id){
         Post post = postRepository.findById(id )
                 .orElseThrow(() -> new ResourceNotFoundException("Post","id", id.toString()));
-        PostDto postDto = mapToDto(post);
+        PostDto postDto = mapper.mapToPostDto(post);
         return postDto;
     }
 
@@ -59,7 +54,7 @@ public class PostServiceImpl implements PostService {
         post.setDescription(postDto.getDescription());
         post.setContent(postDto.getContent()    );
         Post updatedPost = postRepository.save(post);
-        PostDto updatedPostDto = mapToDto(updatedPost);
+        PostDto updatedPostDto = mapper.mapToPostDto(updatedPost);
         return updatedPostDto ;
     }
 
@@ -79,7 +74,7 @@ public class PostServiceImpl implements PostService {
         List<Post> listOfPosts = posts.getContent();
         List<PostDto> content = listOfPosts
                 .stream()
-                .map((post)-> mapToDto(post) )
+                .map((post)-> mapper.mapToPostDto(post) )
                 .collect(Collectors.toList());
 
         PostResponse postResponse = new PostResponse();
