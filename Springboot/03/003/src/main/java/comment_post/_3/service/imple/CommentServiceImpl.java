@@ -94,22 +94,6 @@ public class CommentServiceImpl implements CommentService {
 
     }
 
-    private boolean validatePostComment(Long postId , Long commentId){
 
-
-
-        Post post = postRepository.findById(postId)
-                .orElseThrow(()-> new ResourceNotFoundException("Post", "id", postId.toString()));
-
-        Comment comment = commentRepository.findById(commentId)
-                .orElseThrow(()-new ResourceNotFoundException("Comment","Id",commentId.toString()));
-
-        if(!comment.getPost().getId().equals(post.getId())){
-
-            return false;
-        }
-        return true;
-
-    }
 
 }
