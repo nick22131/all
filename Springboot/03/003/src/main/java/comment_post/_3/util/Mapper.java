@@ -6,30 +6,27 @@ import comment_post._3.payload.CommentDto;
 import comment_post._3.payload.PostDto;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
+public class Mapper {
 
-public class Mapper  {
+    private final ModelMapper modelMapper; // Changed from AppConfig to ModelMapper
 
-    private final ModelMapper modelMapper;
-
-
-    public CommentDto mapToCommentDto (Comment comment){
-        return modelMapper.map(comment,CommentDto.class);
+    public CommentDto mapToCommentDto(Comment comment) {
+        return modelMapper.map(comment, CommentDto.class); // Fixed syntax error
     }
 
-    public Comment mapToCommentEntity (CommentDto commentDto){
+    public Comment mapToCommentEntity(CommentDto commentDto) {
         return modelMapper.map(commentDto, Comment.class);
     }
 
-    public Post mapToPostEntity(PostDto postDto){
+    public Post mapToPostEntity(PostDto postDto) {
         return modelMapper.map(postDto, Post.class);
     }
-    public PostDto mapToPostDto(Post post){
+
+    public PostDto mapToPostDto(Post post) {
         return modelMapper.map(post, PostDto.class);
     }
-
 }
