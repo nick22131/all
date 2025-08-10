@@ -21,8 +21,8 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class PostServiceImpl implements PostService  {
 
-    private PostRepository postRepository ;
-    private ModelMapper modelMapper;
+    private final  PostRepository postRepository ;
+    private final ModelMapper modelMapper;
 
     private PostDto mapToDto(Post post){
         return modelMapper.map(post, PostDto.class);
