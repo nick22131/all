@@ -95,6 +95,13 @@ public class PostServiceImpl implements PostService  {
         return postResponse;
     }
 
+    @Override
+    public PostDto getPostByTitle(String title){
+        Post post = postRepository.findByTitle(title);
+        PostDto postDto = mapToDto(post);
+        return postDto;
+
+    }
 
 
 }

@@ -50,4 +50,10 @@ public class PostController {
         return ResponseEntity.ok().body("Deleted");
     }
 
+    @GetMapping (params = "title")
+    public ResponseEntity<PostDto> getPostByTitle(@RequestParam(value = "title",required = false)  String title){
+        PostDto postDto = postService.getPostByTitle(title);
+        return ResponseEntity.ok().body(postDto);
+    }
+
 }
