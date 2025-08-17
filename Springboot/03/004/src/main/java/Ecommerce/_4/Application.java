@@ -1,5 +1,6 @@
 package Ecommerce._4;
 
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -12,6 +13,8 @@ public class Application {
 	}
 
     @Bean
-    public ModelMapper
+    public ModelMapper modelMapper(){
+		return new ModelMapper();
+	}
 
 }

@@ -1,0 +1,15 @@
+# Application config
+spring:
+  application:
+    name: 004
+  datasource:
+    url: jdbc:mysql://localhost:3306/mydb02
+    username: root
+    password: 1515
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: update # possible values: validate|update|create|create-drop
+    show-sql: true

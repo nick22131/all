@@ -1,7 +1,10 @@
 package Ecommerce._4.entity;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
+@Entity
+@Data
 public class OrderItem {
 
     @Id
@@ -12,7 +15,7 @@ public class OrderItem {
     @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 
-    @ManyToMany(fetch = FetchType.EAGER, targetEntity = Order.class)
+    @ManyToOne(fetch = FetchType.EAGER, targetEntity = Order.class)
     @JoinColumn(name = "order_id", referencedColumnName = "id")
     private Order order;
 
