@@ -26,6 +26,15 @@ public class ProductController {
     }
 
 
+    @PostMapping
+    public ResponseEntity<List<ProductDto>> createProducts(
+            @RequestBody List<ProductDto> productDtos
+    ){
+        List<ProductDto> savedDtos = productService.createProducts(productDtos);
+        return ResponseEntity.status(HttpStatus.CREATED).body(savedDtos);
+    }
+
+
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProductById(
            @PathVariable("id") Long productId
@@ -57,5 +66,8 @@ public class ProductController {
         productService.deleteProduct(productId);
         return ResponseEntity.ok("deleted"  );
     }
+
+
+
 
 }

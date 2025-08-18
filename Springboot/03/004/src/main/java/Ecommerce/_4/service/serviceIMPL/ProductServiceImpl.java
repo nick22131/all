@@ -64,5 +64,19 @@ public class ProductServiceImpl implements ProductService {
        productRepository.delete(product);
     }
 
+    @Override
+    public List<ProductDto> createProducts(List<ProductDto> productDtos){
+
+        List<Product> products = productDtos
+                                  .stream()
+                .map((dto)-> modelMapper.map(dto,Product.class ))
+                .collect(Collectors.toList());
+        List<Product> savedProducts = productRepository.saveAll(products);
+        List<ProductDto> savedDtos = savedProducts
+                .stream()
+                .map((product)-> modelMapper.map(product, ProductDto.class) )
+                .collect(Collectors.toList());
+           return savedDtos;
+    }
 
 }
