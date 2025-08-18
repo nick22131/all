@@ -65,4 +65,21 @@ public class UserServiceImpl implements UserService {
         userRepository.delete(user);
     }
 
+    @Override
+    public List<UserDto> createUsers(List<UserDto> userDtos) {
+        List<User> users = userDtos
+                           .stream()
+                            .map((dto)-> modelMapper.map(dto,User.class))
+                              .collect(Collectors.toList());
+
+        List<User> savedUsers = userRepository.saveAll(users);
+
+        List<UserDto> savedDtos = savedUsers
+                .stream()
+                .map((user)-> modelMapper.map(user, UserDto.class))
+                .collect
+
+        return List.of();
+    }
+
 }
