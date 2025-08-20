@@ -11,6 +11,6 @@ public interface ProductService {
     ProductDto updateProduct(Long productId, ProductDto productDto);
     void deleteProduct(Long productId);
     List<ProductDto> createProducts(List<ProductDto>  productDtos);
-
+    List<ProductDto> getAllProductsBeanPropertyRowMapper();
 
 }

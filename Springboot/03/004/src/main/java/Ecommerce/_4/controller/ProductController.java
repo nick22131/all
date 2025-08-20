@@ -26,7 +26,7 @@ public class ProductController {
     }
 
 
-    @PostMapping
+    @PostMapping("/bulk")
     public ResponseEntity<List<ProductDto>> createProducts(
             @RequestBody List<ProductDto> productDtos
     ){
@@ -50,6 +50,13 @@ public class ProductController {
     }
 
 
+    @GetMapping ("/sql")
+    public ResponseEntity<List<ProductDto>> getAllProductsSql() {
+        List<ProductDto> products = productService.getAllProductsBeanPropertyRowMapper();
+        return ResponseEntity.ok().body(products);
+    }
+
+
     @PutMapping("/{id}")
     public ResponseEntity<ProductDto> updateProduct(
            @PathVariable("id") Long productId,
@@ -66,7 +73,6 @@ public class ProductController {
         productService.deleteProduct(productId);
         return ResponseEntity.ok("deleted"  );
     }
-
 
 
 

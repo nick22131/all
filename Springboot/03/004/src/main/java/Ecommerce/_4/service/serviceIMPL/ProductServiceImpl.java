@@ -4,6 +4,7 @@ import Ecommerce._4.entity.Product;
 import Ecommerce._4.exception.ResourceNotFoundException;
 import Ecommerce._4.payload.ProductDto;
 import Ecommerce._4.repository.ProductRepository;
+import Ecommerce._4.repository.ProductRepositorySql;
 import Ecommerce._4.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,7 @@ import java.util.stream.Collectors;
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductRepositorySql productRepositorySql;
     private final ModelMapper modelMapper;
 
     @Override
@@ -45,6 +47,16 @@ public class ProductServiceImpl implements ProductService {
                                             collect(Collectors.toList());
         return productDtos;
     }
+
+    @Override
+    public List<ProductDto> getAllProductsBeanPropertyRowMapper(){
+        List<Product> products = productRepositorySql.getAllProducts();
+        List<ProductDto> productDtos =  products.stream()
+                .map((product )-> modelMapper.map(product,ProductDto.class))
+                .collect(Collectors.toList());
+        return productDtos;
+    }
+
 
     @Override
     public ProductDto updateProduct(Long productId, ProductDto productDto){
@@ -78,5 +90,6 @@ public class ProductServiceImpl implements ProductService {
                 .collect(Collectors.toList());
            return savedDtos;
     }
+
 
 }

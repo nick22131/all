@@ -24,6 +24,11 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.CREATED).body(createdDto);
     }
 
+    @PostMapping ("/bulk")
+    public ResponseEntity<List<UserDto>> createUsers(@RequestBody List<UserDto> users){
+        List<UserDto> userDtos = userService.createUsers(users);
+        return ResponseEntity.status(HttpStatus.CREATED).body(userDtos);
+    }
 
 
     @GetMapping("/{id}")
