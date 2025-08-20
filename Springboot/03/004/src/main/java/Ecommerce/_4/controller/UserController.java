@@ -33,7 +33,7 @@ public class UserController {
 
     @GetMapping("/{id}")
     public ResponseEntity<UserDto> getUser(
-            @PathVariable Long userId){
+            @PathVariable("id") Long userId){
         UserDto userDto = userService.getUserById(userId);
         return ResponseEntity.ok().body(userDto);
     }
@@ -44,6 +44,12 @@ public class UserController {
     public ResponseEntity<List<UserDto>> getAllUser(){
         List<UserDto> users = userService.getAllUsers();
         return ResponseEntity.ok().body(users);
+    }
+
+    @GetMapping("/sql")
+    public ResponseEntity<List<UserDto>> getAllUsersSql(){
+        List<UserDto> userDtos = userService.getAllUsersBeanPropertyRowMapper();
+        return ResponseEntity.ok().body(userDtos);
     }
 
 
@@ -62,5 +68,6 @@ public class UserController {
         userService.deleteUser(userId);
         return ResponseEntity.ok("DEleted");
     }
+
 
 }

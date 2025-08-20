@@ -13,5 +13,6 @@ public interface UserService {
     UserDto updateUser(Long id , UserDto userDto);
     void deleteUser(Long id);
     List<UserDto> createUsers(List<UserDto> userDtos);
+    List<UserDto> getAllUsersBeanPropertyRowMapper();
 
 }

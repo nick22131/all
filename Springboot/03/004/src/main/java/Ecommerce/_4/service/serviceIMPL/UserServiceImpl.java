@@ -4,6 +4,7 @@ import Ecommerce._4.entity.User;
 import Ecommerce._4.exception.ResourceNotFoundException;
 import Ecommerce._4.payload.UserDto;
 import Ecommerce._4.repository.UserRepository;
+import Ecommerce._4.repository.UserRepositorySql;
 import Ecommerce._4.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -18,6 +19,8 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final ModelMapper modelMapper;
+    private final UserRepositorySql userRepositorySql;
+
 
     @Override
     public UserDto createUser(UserDto userDto) {
@@ -80,6 +83,16 @@ public class UserServiceImpl implements UserService {
                 .collect(Collectors.toList());
 
         return savedDtos;
+    }
+
+    @Override
+    public List<UserDto> getAllUsersBeanPropertyRowMapper() {
+        List<User> user = userRepositorySql.getAllUsers();
+        List<UserDto> userDtos= user
+                .stream()
+                .map((u)-> modelMapper.map(u,UserDto.class) )
+                .collect(Collectors.toList());
+        return userDtos;
     }
 
 }
