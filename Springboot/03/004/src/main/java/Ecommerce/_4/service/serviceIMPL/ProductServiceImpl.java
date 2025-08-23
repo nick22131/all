@@ -1,5 +1,6 @@
 package Ecommerce._4.service.serviceIMPL;
 
+import Ecommerce._4.aop.LogAspect;
 import Ecommerce._4.entity.Product;
 import Ecommerce._4.exception.ResourceNotFoundException;
 import Ecommerce._4.payload.ProductDto;
@@ -16,11 +17,13 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@LogAspect
 public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ProductRepositorySql productRepositorySql;
     private final ModelMapper modelMapper;
+
 
     @Override
     public ProductDto createProduct(ProductDto productDto) {
@@ -89,6 +92,16 @@ public class ProductServiceImpl implements ProductService {
                 .map((product)-> modelMapper.map(product, ProductDto.class) )
                 .collect(Collectors.toList());
            return savedDtos;
+    }
+
+    @Override
+    public int[] createProductsNamedParameterJdbcTemplate(List<ProductDto> productDtos){
+        List<Product>  products =  productDtos.stream()
+                .map((dto)-> modelMapper.map(dto,Product.class))
+                .collect(Collectors.toList());
+        int[] rowUpdated = productRepositorySql.batchInsert(products);
+        return rowUpdated;
+
     }
 
 

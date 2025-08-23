@@ -34,6 +34,13 @@ public class ProductController {
         return ResponseEntity.status(HttpStatus.CREATED).body(savedDtos);
     }
 
+    @PostMapping("/bulkSql")
+    public ResponseEntity<int[]> createProductsSql(
+            @RequestBody List<ProductDto> products){
+        int[] updatedRows = productService.createProductsNamedParameterJdbcTemplate(products);
+        return ResponseEntity.status(HttpStatus.CREATED).body(updatedRows);
+    }
+
 
     @GetMapping("/{id}")
     public ResponseEntity<ProductDto> getProductById(
