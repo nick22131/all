@@ -1,11 +1,14 @@
 package ecommerce._5.service.serviceImpl;
 
 import ecommerce._5.entity.Product;
+import ecommerce._5.feign.ProductServiceFeignClient;
+
 import ecommerce._5.payload.ProductDto;
 import ecommerce._5.repository.ProductRepository;
 import ecommerce._5.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,6 +20,8 @@ public class ProductServiceImpl implements ProductService {
 
     private final ProductRepository productRepository;
     private final ModelMapper modelMapper;
+
+    private final ProductServiceFeignClient productServiceFeignClient;
 
     @Override
     public List<ProductDto> createProducts(List<ProductDto> productDtos) {
@@ -31,9 +36,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<ProductDto> getAllProducts() {
-        return productRepository.findAll().stream()
-                .map(product -> modelMapper.map(product, ProductDto.class))
-                .collect(Collectors.toList());
+        return productServiceFeignClient.getAllProducts();
     }
 
     @Override
@@ -53,6 +56,8 @@ public class ProductServiceImpl implements ProductService {
         existingProduct.setDescription(productDto.getDescription());
 
         Product updatedProduct = productRepository.save(existingProduct);
+
+
         return modelMapper.map(updatedProduct, ProductDto.class);
     }
 
