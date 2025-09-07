@@ -1,9 +1,6 @@
 package ecommerce._5.entity;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 
@@ -11,9 +8,13 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 @Table(name = "product005")
 @Data
 public class Product {
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name ;
+
     private Double price;
+
     private String description;
 }
