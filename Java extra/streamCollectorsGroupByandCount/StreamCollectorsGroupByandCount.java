@@ -24,7 +24,7 @@ public class StreamCollectorsGroupByandCount {
                 ));
 
                 grouping.forEach((group , count ) ->
-                        System.out.println(  count +" = " + group));
+                        System.out.printlna(  count +" = " + group));
 
 
     }
