@@ -12,10 +12,12 @@ public class p021_Recursion {
     }
 
     static void sayHi(int m){
-        System.out.println("Hello");
-        if(m < 0){
+
+        if(m == 0){
             return;
         }
+
+        System.out.println("Hello");
         sayHi(m - 1);
     }
 
