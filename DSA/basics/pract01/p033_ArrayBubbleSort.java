@@ -14,8 +14,25 @@ public class p033_ArrayBubbleSort {
           array[i] = Integer.parseInt(ele[i ]);
       }
       long t1 = System.currentTimeMillis();
-      System.out.print("Enterd array is : " + Arrays.toString(array));
+      System.out.print("\n Enterd array is : " + Arrays.toString(array));
       bubbleSort(array);
-      System
+      System.out.print("\n sorted array is : "  + Arrays.toString(array));
+      long t2 = System.currentTimeMillis();
+      long time = t2 - t1 ;
+      System.out.print("\n time taken : " + time);
+  }
+
+  static void bubbleSort(int[] array)   {
+      int size = array.length;
+      int temp = 0;
+      for(int i = 0 ; i < size ; i++){
+          for(int j = 0 ; j < size - i -1 ; j++){
+              if(array[j] > array[j+1]) {
+                  temp = array[j];
+                  array[j] = array[j+1];
+                  array[j+1] = temp;
+              }
+          }
+      }
   }
 }
