@@ -1,0 +1,42 @@
+package sorting_Algo;
+
+import java.util.Arrays;
+import java.util.Random;
+import java.util.Scanner;
+
+public class p004_SelectionSort {
+    public static void main(String[] args ){
+        Scanner sc = new Scanner(System.in);
+        System.out.print("enter array size : ");
+        int size = sc.nextInt();
+        int[] array  = new int[size];
+        Random random = new Random();
+        long t1 = System.currentTimeMillis();
+        for(int i = 0 ; i< size; i++){
+            array[i] = random.nextInt(1000);
+        }
+        System.out.print("\n Enterd array is: " + Arrays.toString(array));
+        selectionSort(array);
+        System.out.print("\n sorted array is : " + Arrays.toString(array));
+        long t2 = System.currentTimeMillis();
+        long time = t2 - t1;
+        System.out.print("\n time taken: " + time);
+    }
+
+    private static void selectionSort(int[] array){
+        int size = array.length;
+        int tem = 0;
+        int maxIndex = 0;
+        for(int i = 0 ; i < size -1; i++)   {
+            maxIndex = i;
+            for(int j = i+1 ; j < size ; j++){
+                if(array[maxIndex] < array[j]){
+                    maxIndex = j;
+                }
+            }
+            tem = array[maxIndex];
+            array[maxIndex] = array[i];
+            array[i] = tem;
+        }
+    }
+}
