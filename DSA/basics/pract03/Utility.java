@@ -3,8 +3,7 @@ package basics.pract03;
 import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
-
-public class Utility {
+class Utility {
     private static final Scanner scanner = new Scanner(System.in);
     private static final Random random = new Random();
 
