@@ -1,6 +1,6 @@
 package basics.pract04;
 
-public class p022_FibonacciRecursive {
+public class p021_FibonacciRecursive {
     public static void main(String[] args) {
         int input = Utility.getNumber();
         System.out.print("\n series : ");

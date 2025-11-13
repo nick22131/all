@@ -22,7 +22,7 @@ public class p007_ReverseArrayFromGivenPosition {
             System.out.print(" " + a);
         }
     }
-    public static void reverseArray(int[]array , int pos){
+    private static void reverseArray(int[]array , int pos){
         int left = pos + 1;
         int right = array.length-1;
         while(left < right ) {

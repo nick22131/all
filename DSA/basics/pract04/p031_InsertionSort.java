@@ -10,7 +10,7 @@ public class p031_InsertionSort {
         Utility.printArray(array);
     }
 
-    static void insertionSort(int[] array){
+    private static void insertionSort(int[] array){
         int size = array.length;
         for(int i = 1; i < size; i++){
             int key = array[i];

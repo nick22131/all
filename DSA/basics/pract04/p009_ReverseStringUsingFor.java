@@ -6,6 +6,7 @@ public class p009_ReverseStringUsingFor {
         String rev = "";
         for(int i = input.length() - 1; i >= 0; i --){
             rev = rev + input.charAt(i);
+            System.out.println(rev);
         }
         System.out.print("\n Rev of string is : " + rev );
     }

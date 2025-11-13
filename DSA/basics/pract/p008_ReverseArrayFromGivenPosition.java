@@ -24,7 +24,7 @@ public class p008_ReverseArrayFromGivenPosition {
             System.out.print(" " + m);
         }
     }
-    public static void reverseArray(int[]arr, int posi){
+    private static void reverseArray(int[]arr, int posi){
         int left = posi + 1;
         int right = arr.length - 1;
         while(left < right ) {

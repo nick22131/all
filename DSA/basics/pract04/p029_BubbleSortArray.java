@@ -9,7 +9,7 @@ public class p029_BubbleSortArray {
         Utility.printArray(array);
     }
 
-    static void bubbleSort(int[] array){
+    private static void bubbleSort(int[] array){
         int size = array.length;
         int tem = 0;
         boolean swapped ;

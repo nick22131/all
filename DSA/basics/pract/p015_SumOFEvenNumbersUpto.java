@@ -2,7 +2,7 @@ package basics.pract;
 
 import java.util.Scanner;
 
-public class p015_SumOFEvenNumbersUpto {
+class p015_SumOFEvenNumbersUpto {
    public static void main(String[] args){
      Scanner sc = new Scanner(System.in);
      System.out.print(" Enter a Number: ");

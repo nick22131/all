@@ -1,6 +1,6 @@
 package basics.pract04;
 
-public class p030_ArraySelectionSort {
+class p030_ArraySelectionSort {
     public static void main(String[] args) {
         int size = Utility.getArraySize();
         int[] array = Utility.getArray(size);
@@ -12,7 +12,7 @@ public class p030_ArraySelectionSort {
 
     }
 
-    static void selectionSort(int[] array){
+   private static void selectionSort(int[] array){
         int size = array.length;
         int tem = 0;
         int minIndex =0;
