@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+# Maven Wrapper script
+# This script delegates to the Maven Wrapper JAR.
+# It will download Maven if not present.
+
+# Resolve the directory of the script
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+
+# Execute the wrapper JAR
+java -jar "$SCRIPT_DIR/.mvn/wrapper/maven-wrapper.jar" "$@"
