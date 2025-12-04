@@ -1,2 +1,28 @@
 ssh_keys/
 .idea/
+# Auto detect text files and perform LF normalization
+* text=auto
+
+# These are text files and should be normalized (converted to LF on checkout)
+*.java text
+*.properties text
+*.xml text
+*.yml text
+*.yaml text
+*.md text
+*.txt text
+
+# These are binary and should not be normalized
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.jar binary
+*.class binary
+
+# Windows batch files should use CRLF
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Shell scripts should use LF
+*.sh text eol=lf
