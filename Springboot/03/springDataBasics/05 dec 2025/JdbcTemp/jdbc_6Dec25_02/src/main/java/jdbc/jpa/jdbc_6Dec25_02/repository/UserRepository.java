@@ -3,6 +3,7 @@ package jdbc.jpa.jdbc_6Dec25_02.repository;
 import jdbc.jpa.jdbc_6Dec25_02.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -11,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserRepository {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate jdbcTemplate;
 
     public void createUserTable(){
         String sql = """ 
